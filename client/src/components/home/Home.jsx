@@ -5,10 +5,14 @@ import Statistics from '../statistics/Statistics.jsx'
 import Technologies from '../technologies/Technologies.jsx'
 import Blog from '../blog/Blog.jsx'
 
-export default function Home() {
+export default function Home({
+  user,
+}) {
   return (
     <>
-      <Headers />
+      {/* Remove administrative header for home page */}
+      {user && <Headers />}
+      
       <Hero />
       <Experience />
       <Statistics />

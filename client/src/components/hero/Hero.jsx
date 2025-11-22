@@ -1,5 +1,6 @@
 'use client'
 
+import { Link } from 'react-router-dom' 
 import { useState } from 'react'
 import { Dialog, DialogPanel } from '@headlessui/react'
 import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline'
@@ -52,9 +53,15 @@ export default function Example() {
             ))}
           </div>
           <div className="hidden lg:flex lg:flex-1 lg:justify-end">
-            <a href="#" className="text-sm/6 font-semibold text-white">
+            <Link to="/register" className="text-sm/6 font-semibold text-white">
+              Register <span aria-hidden="true">&rarr;</span>
+            </Link>
+            <Link to="/login" className="text-sm/6 font-semibold text-white">
               Log in <span aria-hidden="true">&rarr;</span>
-            </a>
+            </Link>
+            <Link to="/login" className="text-sm/6 font-semibold text-white">
+              Log out <span aria-hidden="true">&rarr;</span>
+            </Link>
           </div>
         </nav>
         <Dialog open={mobileMenuOpen} onClose={setMobileMenuOpen} className="lg:hidden">
