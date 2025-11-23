@@ -10,7 +10,7 @@ const navigation = [
   { name: 'About Me', href: '#' },
   { name: 'Experience', href: '#' },
   { name: 'My Work', href: '#' },
-  { name: 'Blog', href: '#' },
+  { name: 'Blog', href: '/blog' },
   { name: 'Contact', href: '#' },
 ]
 
@@ -49,9 +49,9 @@ export default function Hero({
           </div>
           <div className="hidden lg:flex lg:gap-x-12">
             {navigation.map((item) => (
-              <a key={item.name} href={item.href} className="text-sm/6 font-semibold text-white">
+              <Link key={item.name} to={item.href} className="text-sm/6 font-semibold text-white">
                 {item.name}
-              </a>
+              </Link>
             ))}
           </div>
           <div className="hidden lg:flex lg:flex-1 lg:justify-end">

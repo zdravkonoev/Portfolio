@@ -5,6 +5,7 @@ import Register from './components/register/Register.jsx'
 import { useState } from "react";
 import Login from './components/login/Login.jsx'
 import Logout from './components/logout/Logout.jsx'
+import Blog from './components/blog/Blog.jsx'
 
 function App() {
 
@@ -48,6 +49,7 @@ function App() {
         <Route path="/register" element={<Register onRegister={registerHandler} />} />
         <Route path="/login" element={<Login onLogin={loginHandler} />} />
         <Route path="/logout" element={<Logout onLogout={logoutHandler} />} />
+        <Route path="/blog" element={<Blog />} />
       </Routes>
     </>
   )
