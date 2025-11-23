@@ -12,8 +12,8 @@ export default function Home({
     <>
       {/* Remove administrative header for home page */}
       {user && <Headers />}
-      
-      <Hero />
+
+      <Hero user={user} />
       <Experience />
       <Statistics />
       <Technologies />

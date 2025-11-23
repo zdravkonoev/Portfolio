@@ -27,7 +27,7 @@ export default function Login({
             navigate('/');
         } catch (error) {
             console.error("Login error:", error);
-            alert("Login failed. Please try again.");
+            alert("Login failed or missing user registration.");
             return;
         }
         

@@ -15,8 +15,12 @@ function App() {
       throw new Error("User already exists!");
     }
 
+    const newUser = {email, password};
 
-    setRegisteredUsers(state => [...state, {email, password}]);
+    setRegisteredUsers(state => [...state, newUser]);
+
+    // Auto-login after registration  
+    setUser(newUser);
 
   };
 
@@ -31,13 +35,18 @@ function App() {
     setUser(user);
   };
 
+  const logoutHandler = () => {
+    setUser(null);
+  };
+
   return (
     <>   
       <Routes>
         <Route path="/" element={<Home user={user} />} />
         <Route path="*" element={<NotFound404 />} />
         <Route path="/register" element={<Register onRegister={registerHandler} />} />
-        <Route path="/login" element={<Login onLogin={loginHandler} />} /> 
+        <Route path="/login" element={<Login onLogin={loginHandler} />} />
+        <Route path="/logout" element={<Logout onLogin={logoutHandler} />} />
       </Routes>
     </>
   )

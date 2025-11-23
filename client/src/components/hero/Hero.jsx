@@ -18,7 +18,9 @@ const navigation = [
 //   avatarUrl: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
 // }   
 
-export default function Example() {
+export default function Hero({
+  user,
+}) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
 
   return (
@@ -53,15 +55,21 @@ export default function Example() {
             ))}
           </div>
           <div className="hidden lg:flex lg:flex-1 lg:justify-end">
-            <Link to="/register" className="text-sm/6 font-semibold text-white">
-              Register <span aria-hidden="true">&rarr;</span>
-            </Link>
-            <Link to="/login" className="text-sm/6 font-semibold text-white">
-              Log in <span aria-hidden="true">&rarr;</span>
-            </Link>
-            <Link to="/login" className="text-sm/6 font-semibold text-white">
-              Log out <span aria-hidden="true">&rarr;</span>
-            </Link>
+            {!user ? (
+              <>
+                <Link to="/register" className="text-sm/6 font-semibold text-white mr-3">
+                  Register
+                </Link>
+
+                <Link to="/login" className="text-sm/6 font-semibold text-white">
+                  Log in <span aria-hidden="true">&rarr;</span>
+                </Link>
+              </>
+            ) : (
+              <Link to="/login" className="text-sm/6 font-semibold text-white">
+                Log out <span aria-hidden="true">&rarr;</span>
+              </Link>
+            )}
           </div>
         </nav>
         <Dialog open={mobileMenuOpen} onClose={setMobileMenuOpen} className="lg:hidden">
