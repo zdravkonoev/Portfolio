@@ -66,7 +66,7 @@ export default function Hero({
                 </Link>
               </>
             ) : (
-              <Link to="/login" className="text-sm/6 font-semibold text-white">
+              <Link to="/logout" className="text-sm/6 font-semibold text-white">
                 Log out <span aria-hidden="true">&rarr;</span>
               </Link>
             )}

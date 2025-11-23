@@ -1,9 +1,9 @@
-import { NavLink } from "react-router";
+import { Navigate } from "react-router";
 
 export default function Logout({
     onLogout,
 }) {
         onLogout(); 
     
-        return  <NavLink to="/home" />;
+        return  <Navigate to="/" />;
 }
