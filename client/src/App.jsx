@@ -4,7 +4,7 @@ import Home from './components/home/Home.jsx'
 import Register from './components/register/Register.jsx'
 import { useState } from "react";
 import Login from './components/login/Login.jsx'
-import Logout from './components/logout/Logout.jsx' 
+import Logout from './components/logout/Logout.jsx'
 
 function App() {
 
