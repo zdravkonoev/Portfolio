@@ -6,6 +6,7 @@ import { useState } from "react";
 import Login from './components/login/Login.jsx'
 import Logout from './components/logout/Logout.jsx'
 import Blog from './components/blog/Blog.jsx'
+import DetailsPost from './components/blog/DetailsPost.jsx';
 
 function App() {
 
@@ -50,6 +51,7 @@ function App() {
         <Route path="/login" element={<Login onLogin={loginHandler} />} />
         <Route path="/logout" element={<Logout onLogout={logoutHandler} />} />
         <Route path="/blog" element={<Blog />} />
+        <Route path="/blog/:postId/post-details" element={<DetailsPost />} />
       </Routes>
     </>
   )

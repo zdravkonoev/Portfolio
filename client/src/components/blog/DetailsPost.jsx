@@ -1,18 +1,21 @@
-import { Link } from 'react-router-dom';
-export default function Post({
-    id, 
-    title, 
-    date, 
-    datetime, 
-    category, 
-    description, 
-    author, 
-    href,
-    postRefId
-}) {
+import { useEffect } from 'react';
+import { useParams } from 'react-router'    
+export default function DetailsPost() {
+    const {postId} = useParams();
+
+    console.log(postId);
+
+    useEffect(() => {
+        fetch(`http://localhost:3030/jsonstore/blog-portfolio/posts/${postId}`)
+        .then(response => response.json())
+        .then(data => {
+            console.log(data);
+        }); 
+    }, [postId]);
 
 return (
-    <article key={id} className="flex max-w-xl flex-col items-start justify-between">
+    <>
+    {/* <article key={id} className="flex max-w-xl flex-col items-start justify-between">
         <div className="flex items-center gap-x-4 text-xs">
             <time dateTime={datetime} className="text-gray-400">
             {date}
@@ -41,13 +44,11 @@ return (
                 <span className="absolute inset-0" />
                 {author.name}
                 </a>
-            </p> 
+            </p>
             <p className="text-gray-400">{author.role}</p>
             </div>
         </div>
-        <Link to={`/blog/${postRefId}/post-details`} className="text-sm/6 font-semibold text-white mt-4">
-            Read More &rarr;
-        </Link>
-    </article>
+    </article> */}
+    </>
     )
 }
