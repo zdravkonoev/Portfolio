@@ -18,7 +18,7 @@ export default function DetailsPost() {
             .catch(error => console.error('Error fetching post details:', error));
     }, [postId]);
 
-    if (!post) return <p>Loading...</p>;
+    if (!post || !post.category || !post.author) return <p>Loading...</p>;
 
     console.log(post);
 
