@@ -1,15 +1,20 @@
 import { useEffect } from 'react';
 import { useParams } from 'react-router'
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { Button } from '@headlessui/react'
+
+const BASE_URL = `http://localhost:3030/jsonstore/blog-portfolio/posts`;
 
 export default function DetailsPost() {
     const {postId} = useParams();
     const [post, setPost] = useState({});
+    const navigate = useNavigate();
 
     console.log(postId);
 
     useEffect(() => {
-        fetch(`http://localhost:3030/jsonstore/blog-portfolio/posts/${postId}`)
+        fetch(`${BASE_URL}/${postId}`)
             .then(response => response.json())
             .then(result => {
                 console.log(result);
@@ -21,6 +26,25 @@ export default function DetailsPost() {
     if (!post || !post.category || !post.author) return <p>Loading...</p>;
 
     console.log(post);
+
+    //Delete Post
+    const deletePostHandler = async () => {
+        const isConfirmed = confirm(`Are you sure you want to delete post: ${post.title}`)
+
+        if (!isConfirmed) {
+            return;
+        }
+
+        try {   
+            await fetch(`${BASE_URL}/${postId}`, {
+            method: 'DELETE',
+
+            })
+            navigate('/blog');
+        } catch(error) {
+            alert('Error deleting post:', error);
+        }
+    }
 
 return (
     <div className="bg-gray-900 py-24 sm:py-32">
@@ -51,16 +75,26 @@ return (
                         </h3>
                         <p className="mt-5 text-sm/6 text-gray-400">{post.description}</p>
                     </div>
-                    <div className="relative mt-8 flex items-center gap-x-4 justify-self-end">
-                        <img alt="" src={post.author.imageUrl} className="size-10 rounded-full bg-gray-800" />
-                        <div className="text-sm/6">
-                        <p className="font-semibold text-white">
-                            <a href={post.author.href}>
-                            <span className="absolute inset-0" />
-                            {post.author.name}
-                            </a>
-                        </p>
-                        <p className="text-gray-400">{post.author.role}</p>
+                    <div className="relative mt-8 flex items-center gap-x-4">
+                        <div className="relative flex items-center gap-x-4 justify-self-end w-50">
+                            <img alt="" src={post.author.imageUrl} className="size-10 rounded-full bg-gray-800" />
+                            <div className="text-sm/6">
+                            <p className="font-semibold text-white">
+                                <a href={post.author.href}>
+                                <span className="absolute inset-0" />
+                                {post.author.name}
+                                </a>
+                            </p>
+                            <p className="text-gray-400">{post.author.role}</p>
+                            </div>
+                        </div>
+                        <div className="mr-5 flex items-center justify-center gap-x-6">
+                            <button className="text-sm/6 font-semibold text-white text-nowrap">
+                                Edit <span aria-hidden="true">→</span>
+                            </button>
+                            <button onClick={deletePostHandler} className="rounded-md bg-indigo-500 px-3.5 py-2.5 text-sm font-semibold text-white shadow-xs hover:bg-indigo-400 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500">
+                                Delete
+                            </button>
                         </div>
                     </div>
                 </article>

@@ -9,6 +9,7 @@ import Blog from './components/blog/Blog.jsx'
 import DetailsPost from './components/blog/DetailsPost.jsx';
 import Header from './components/header/Header.jsx'
 import AdminHeaders from './components/header/AdminHeader.jsx'
+import CreatePost from './components/blog/CreatePost.jsx';
 
 
 function App() {
@@ -58,6 +59,7 @@ function App() {
         <Route path="/logout" element={<Logout onLogout={logoutHandler} />} />
         <Route path="/blog" element={<Blog />} />
         <Route path="/blog/:postId/post-details" element={<DetailsPost />} />
+        <Route path="/blog/post-create" element={<CreatePost />} />
       </Routes>
     </>
   )
