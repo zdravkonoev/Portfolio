@@ -19,14 +19,14 @@ export default function Header({
     <header className="absolute inset-x-0 z-50 mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">{/* top-0  */}
         <nav aria-label="Global" className="flex items-center justify-between p-6 lg:px-8">
           <div className="flex lg:flex-1">
-            <a href="#" className="-m-1.5 p-1.5">
-              <span className="sr-only">Your Company</span>
+            <Link to="/" className="-m-1.5 p-1.5">
+              <span className="sr-only">Personal Portfolio</span>
               <img
                 alt=""
                 src="https://tailwindcss.com/plus-assets/img/logos/mark.svg?color=indigo&shade=500"
                 className="h-8 w-auto"
               />
-            </a>
+            </Link>
           </div>
           <div className="flex lg:hidden">
             <button

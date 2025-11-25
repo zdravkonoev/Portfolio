@@ -1,17 +1,12 @@
-import Header from '../header/Header.jsx'
 import Hero from '../hero/Hero.jsx'
 import Experience from '../experience/Experience.jsx'
 import Statistics from '../statistics/Statistics.jsx'
 import Technologies from '../technologies/Technologies.jsx'
-import Blog from '../blog/Blog.jsx'
-import AdminHeaders from '../header/AdminHeader.jsx'
 import { useEffect, useState } from 'react';
 import Post from '../blog/Post.jsx';
 
 
-export default function Home({
-  user,
-}) {
+export default function Home() {
   const BASE_URL = 'http://localhost:3030/jsonstore/blog-portfolio/';
 
   const [latestPosts, setLatestPosts] = useState([]);
@@ -36,6 +31,7 @@ export default function Home({
         console.error('Error fetching blog posts:', error);
       });
 
+      // !!!useEffect DO NOT SUPPORT ASYNC FUCTIONS!!!!
       //(async () => {
       //  try {
       //    const response = await fetch(BASE_URL);
@@ -54,9 +50,6 @@ export default function Home({
 
   return (
     <>
-      {/* Remove administrative header for home page */}
-      {user && <AdminHeaders />}
-      <Header user={user} />
       <Hero />
       <Experience />
       <Statistics />

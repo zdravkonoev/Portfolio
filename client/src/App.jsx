@@ -7,6 +7,9 @@ import Login from './components/login/Login.jsx'
 import Logout from './components/logout/Logout.jsx'
 import Blog from './components/blog/Blog.jsx'
 import DetailsPost from './components/blog/DetailsPost.jsx';
+import Header from './components/header/Header.jsx'
+import AdminHeaders from './components/header/AdminHeader.jsx'
+
 
 function App() {
 
@@ -43,7 +46,10 @@ function App() {
   };
 
   return (
-    <>   
+    <>
+      {/* Remove administrative header */}
+      {user && <AdminHeaders />}
+      <Header user={user} />
       <Routes>
         <Route path="/" element={<Home user={user} />} />
         <Route path="*" element={<NotFound404 />} />

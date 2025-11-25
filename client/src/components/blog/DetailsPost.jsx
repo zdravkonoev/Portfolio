@@ -49,7 +49,7 @@ return (
                             {post.title}
                         </a>
                         </h3>
-                        <p className="mt-5 line-clamp-3 text-sm/6 text-gray-400">{post.description}</p>
+                        <p className="mt-5 text-sm/6 text-gray-400">{post.description}</p>
                     </div>
                     <div className="relative mt-8 flex items-center gap-x-4 justify-self-end">
                         <img alt="" src={post.author.imageUrl} className="size-10 rounded-full bg-gray-800" />
