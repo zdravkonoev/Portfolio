@@ -1,22 +1,61 @@
-import { Link } from "react-router-dom"; 
+import { Link, Navigate, useNavigate } from "react-router-dom"; 
 export default function CreatePost() {
+    const navigate = useNavigate();
+    const createPostHandler = async (e) => {
+        e.preventDefault(); 
+        const formData = new FormData(e.target);
 
-  const createPostHandler = (e) => {
-    e.preventDefault(); 
-    const formData = new FormData(e.target);
+        //const data = Object.fromEntries(formData);
 
-    const data = Object.fromEntries(formData);
+        formData.title = formData.get("title");
+        formData.href = '#';
+        formData.description = formData.get("description");
 
-    data.date = Date.now();
-    data.datetime = Date.now();
-    console.log(data);
+        // Fix: use new Date
+        formData.date = new Date(Date.now()).toLocaleDateString("en-US", {
+            month: "short",
+            day: "numeric",
+            year: "numeric"
+        });
 
-  }
+        const datetime = new Date();
+        const year = datetime.getFullYear();
+        const month = String(datetime.getMonth() + 1).padStart(2, "0");
+        const day = String(datetime.getDate()).padStart(2, "0");
+
+        formData.datetime = `${year}-${month}-${day}`;
+
+        formData.category = {
+            title: formData.get("companyDepartment"),
+            href: '#'
+        }
+
+        formData.author = {
+            name: formData.get("authorName"),
+            role: formData.get("authorRole"),
+            href: '#',
+            imageUrl: formData.get("authorImage")
+        };
+        console.log(formData);
+
+        const response = await fetch('http://localhost:3030/jsonstore/blog-portfolio/posts', {
+            method: 'POST',
+            headers: {  
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(formData)
+        });
+
+        const result = await response.json();
+        console.log(result);
+
+        navigate('/blog');
+    }
 
   return (
     <>
       <div className="flex min-h-full flex-col justify-center px-6 py-12 lg:px-8">
-            <div className="sm:mx-auto sm:w-full sm:max-w-sm">
+            <div className="sm:mx-auto sm:w-full sm:max-w-sm mt-10">
                 {/* <img
                     alt="Your Company"
                     src="https://tailwindcss.com/plus-assets/img/logos/mark.svg?color=indigo&shade=600"
@@ -28,7 +67,7 @@ export default function CreatePost() {
             </div>
 
             <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
-            <form lassName="space-y-6" onSubmit={createPostHandler}>
+            <form className="space-y-6" onSubmit={createPostHandler}>
                 <div>
                 <label htmlFor="title" className="block text-sm/6 font-medium text-gray-900">
                     Post Title
