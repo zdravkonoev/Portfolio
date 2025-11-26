@@ -16,8 +16,8 @@ export default function Header({
 }) {
     const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
   return (
-    <header className="absolute inset-x-0 z-50 mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">{/* top-0  */}
-        <nav aria-label="Global" className="flex items-center justify-between p-6 lg:px-8">
+    <header className="absolute inset-x-0 z-50 mx-auto px-2 sm:px-6 lg:px-8 bg-gray-900">{/* top-0  */}
+        <nav aria-label="Global" className="flex items-center justify-between p-6 lg:px-8 max-w-7xl mx-auto">
           <div className="flex lg:flex-1">
             <Link to="/" className="-m-1.5 p-1.5">
               <span className="sr-only">Personal Portfolio</span>

@@ -1,23 +1,18 @@
 'use client'
-
 import { Link } from 'react-router-dom' 
 import { Dialog, DialogPanel } from '@headlessui/react'
 import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline'
-// import { Avatar } from './components/avatar'   
+import Avatar from '../avatar/Avatar.jsx'
+//import { Avatar } from "@tailwindui/react";
 
-
-
-// const user = {
-//   avatarUrl: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
-// }   
 
 export default function Hero() {
-  
+  const user = {
+    avatarUrl: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
+  }
 
   return (
     <div className="bg-gray-900">
-      
-
       <div className="relative isolate px-6 pt-14 lg:px-8">
         <div
           aria-hidden="true"
@@ -32,16 +27,15 @@ export default function Hero() {
           />
         </div>
         <div className="mx-auto max-w-2xl py-32 sm:py-48 lg:py-56">
-          <div className="hidden sm:mb-8 sm:flex sm:justify-center">
-            {/* <Avatar {...user.avatarUrl} />  */}
+          <div className="sm:mb-8 sm:flex sm:justify-center">
+            <Avatar {...user} />
           </div>
           <div className="text-center">
             <h1 className="text-5xl font-semibold tracking-tight text-balance text-white sm:text-7xl">
-              Data to enrich your online business
+              A little about me...
             </h1>
             <p className="mt-8 text-lg font-medium text-pretty text-gray-400 sm:text-xl/8">
-              Anim aute id magna aliqua ad ad non deserunt sunt. Qui irure qui lorem cupidatat commodo. Elit sunt amet
-              fugiat veniam occaecat.
+              A UI/UX Designer focuses on creating user-friendly interfaces and optimizing the overall user experience by understanding user needs and behaviors.They combine visual design skills with research and testing to ensure that digital products are both functional and engaging.
             </p>
             <div className="mt-10 flex items-center justify-center gap-x-6">
               <a

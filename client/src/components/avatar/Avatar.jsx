@@ -1,11 +1,7 @@
-import { Avatar } from '@/components/avatar'
-
-export default function Example({ user }) {
+export default function Avatar({ avatarUrl }) {
   return (
     <>
-      <Avatar className="size-6" src={user.avatarUrl} />
-      <Avatar className="size-8" src={user.avatarUrl} />
-      <Avatar className="size-10" src={user.avatarUrl} />
+      <img src={avatarUrl} alt="" class="inline-block size-70 rounded-full ring-2 ring-white outline -outline-offset-1 outline-black/5" />
     </>
   )
 }
