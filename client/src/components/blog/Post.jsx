@@ -26,10 +26,10 @@ return (
         </div>
         <div className="group relative grow">
             <h3 className="mt-3 text-lg/6 font-semibold text-white group-hover:text-gray-300">
-            <a href={href}>
+            <Link to={href}>
                 <span className="absolute inset-0" />
                 {title}
-            </a>
+            </Link>
             </h3>
             <p className="mt-5 line-clamp-3 text-sm/6 text-gray-400">{description}</p>
         </div>

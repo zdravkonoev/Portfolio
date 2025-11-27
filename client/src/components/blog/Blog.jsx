@@ -47,10 +47,6 @@ export default function Blog() {
   // To remove Header if I'm not in Blog Page
   const { pathname } = useLocation();
 
-  const addPostHandler = () => {  
-
-  }
-
   return (
     <>
       {pathname === "/blog" && <Header />}
