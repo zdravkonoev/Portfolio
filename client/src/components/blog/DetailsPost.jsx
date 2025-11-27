@@ -8,21 +8,21 @@ import { Link } from 'react-router-dom';
 const BASE_URL = `http://localhost:3030/jsonstore/blog-portfolio/posts`;
 
 export default function DetailsPost() {
-    const {postId} = useParams();
+    const {postRefId} = useParams();
     const [post, setPost] = useState({});
     const navigate = useNavigate();
 
-    console.log(postId);
+    console.log(postRefId);
 
     useEffect(() => {
-        fetch(`${BASE_URL}/${postId}`)
+        fetch(`${BASE_URL}/${postRefId}`)
             .then(response => response.json())
             .then(result => {
                 console.log(result);
                 setPost(result)
             })
             .catch(error => console.error('Error fetching post details:', error));
-    }, [postId]);
+    }, [postRefId]);
 
     if (!post || !post.category || !post.author) return <p>Loading...</p>;
 
@@ -37,7 +37,7 @@ export default function DetailsPost() {
         }
 
         try {   
-            await fetch(`${BASE_URL}/${postId}`, {
+            await fetch(`${BASE_URL}/${postRefId}`, {
             method: 'DELETE',
 
             })
@@ -90,7 +90,7 @@ return (
                             </div>
                         </div>
                         <div className="mr-5 flex items-center justify-center gap-x-6">
-                            <Link to={`/blog/${postId}/post-edit`} className="text-sm/6 font-semibold text-white text-nowrap">
+                            <Link to={`/blog/${postRefId}/post-edit`} className="text-sm/6 font-semibold text-white text-nowrap">
                                 Edit <span aria-hidden="true">→</span>
                             </Link>
                             <button onClick={deletePostHandler} className="rounded-md bg-indigo-500 px-3.5 py-2.5 text-sm font-semibold text-white shadow-xs hover:bg-indigo-400 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500">

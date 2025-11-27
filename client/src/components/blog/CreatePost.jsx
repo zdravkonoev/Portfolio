@@ -1,6 +1,7 @@
 import { Link, Navigate, useNavigate } from "react-router-dom"; 
 export default function CreatePost() {
     const navigate = useNavigate();
+    
     const createPostHandler = async (e) => {
         e.preventDefault(); 
         const formData = new FormData(e.target);
@@ -38,18 +39,22 @@ export default function CreatePost() {
         };
         console.log(formData);
 
-        const response = await fetch('http://localhost:3030/jsonstore/blog-portfolio/posts', {
-            method: 'POST',
-            headers: {  
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(formData)
-        });
+        try {
+            const response = await fetch('http://localhost:3030/jsonstore/blog-portfolio/posts', {
+                method: 'POST',
+                headers: {  
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(formData)
+            });
 
-        const result = await response.json();
-        console.log(result);
-
-        navigate('/blog'); 
+            const result = await response.json();
+            console.log("New post created with key:", result);
+            navigate('/blog');
+        } catch (error) {
+            console.error('Error creating post:', error);
+        }   
+         
     }
 
   return (

@@ -59,7 +59,7 @@ function App() {
         <Route path="/login" element={<Login onLogin={loginHandler} />} />
         <Route path="/logout" element={<Logout onLogout={logoutHandler} />} />
         <Route path="/blog" element={<Blog />} />
-        <Route path="/blog/:postId/post-details" element={<DetailsPost />} />
+        <Route path="/blog/:postRefId/post-details" element={<DetailsPost />} />
         <Route path="/blog/:postRefId/post-edit" element={<EditPost />} />
         <Route path="/blog/post-create" element={<CreatePost />} />
       </Routes>

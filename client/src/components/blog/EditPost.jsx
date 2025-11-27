@@ -88,12 +88,13 @@ export default function EditPost() {
                 body: JSON.stringify(updatePost)
             });
             console.log(values);
+            navigate(`/blog/${postRefId}/post-details`);
 
         } catch (error) {
             console.error('Error editing post:', error);
         }
 
-        navigate(`/blog/${postRefId}/post-details`);
+        
     }
 
     return (
