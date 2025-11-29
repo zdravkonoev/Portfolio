@@ -12,27 +12,22 @@ import AdminHeaders from './components/header/AdminHeader.jsx'
 import CreatePost from './components/blog/CreatePost.jsx';
 import EditPost from './components/blog/EditPost.jsx';
 import UserContext from './contexts/UserContext.js';
+import useFetch from './hooks/useFetch.js';
 
 
 function App() {
 
   //const [registeredUsers, setRegisteredUsers] = useState([]);
   const [user, setUser] = useState(null);
+  const { request } = useFetch();
 
   const registerHandler = async(email, password) => {
     
     const newUser = {email, password};
 
     //Api Call to register user
-    const response = await fetch('http://localhost:3030/users/register', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(newUser),
-    });
+    const result = await request('/users/register', 'POST', newUser);
 
-    const result = await response.json();
 
     console.log("Registered user:", result);
     //setRegisteredUsers(state => [...state, newUser]);
@@ -42,15 +37,16 @@ function App() {
 
   };
 
-  const loginHandler = (email, password) => {
-
-    //const user = registeredUsers.find(u => u.email === email && u.password === password);
-
-    if (!user) {
+  const loginHandler = async(email, password) => {
+    const result = await request('/users/login', 'POST', {email, password});
+    
+    console.log("Logged in user:", result);
+    
+    if (!result.isAuthenticated) {
       throw new Error("Invalid user credentials");
     }
     
-    setUser(user);
+    setUser(result);
   };
 
   const logoutHandler = () => {
