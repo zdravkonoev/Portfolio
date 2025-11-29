@@ -1,7 +1,8 @@
 
 const BASE_URL = 'http://localhost:3030';
 
-export default function useFetch() {
+export default function useRequest() {
+    
     const request = async (url, method, data) => {
         let options = {};
         if (method) {
@@ -17,11 +18,22 @@ export default function useFetch() {
             
         }
 
+        //id (isAuthenticated) {
+        //    options.headers = {
+        //        ...options.headers,
+        //        "X-Authorization": isAuthenticated
+        //    };
+        //}
+
         const response = await fetch(BASE_URL + url, options);
 
         if (!response.ok) {
             const errorData = await response.json();
             throw new Error(errorData.message || 'Fetch error');
+        }
+
+        if (response.status === 204) {
+            return {}
         }
 
         const result = await response.json();

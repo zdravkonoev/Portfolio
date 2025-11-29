@@ -1,20 +1,16 @@
 import { Link } from "react-router";
 import { useNavigate } from "react-router-dom";
+import useForm from "../../hooks/useForm";
+import { useContext } from "react";
+import UserContext from "../../contexts/UserContext";
 
-export default function Login({
-    onLogin,
-}) {
+export default function Login() {
     const navigate = useNavigate();
+    const {loginHandler} = useContext(UserContext);
     
-    const submitHandler = (e) => {
+    const submitHandler = async ({email, password}) => {
         
-        e.preventDefault();
-
-        const formData = new FormData(e.target);   
-
-        const email = formData.get('email');
-        const password = formData.get('password'); 
-        console.log({email, password});
+      console.log("Login attempt:", {email, password});
 
         if (!email || !password) {
             alert("All fields are required");
@@ -22,7 +18,7 @@ export default function Login({
         }
 
         try {
-            onLogin(email, password);
+            await loginHandler(email, password);
 
             navigate('/');
         } catch (error) {
@@ -32,6 +28,14 @@ export default function Login({
         }
         
     }
+
+    const {
+        register,
+        formAction,
+    } = useForm(submitHandler, {
+        email: '',
+        password: '',
+    });
 
   return (
     <>
@@ -56,7 +60,7 @@ export default function Login({
         </div>
 
         <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
-          <form onSubmit={submitHandler} className="space-y-6">
+          <form action={formAction} className="space-y-6">
             <div>
               <label htmlFor="email" className="block text-sm/6 font-medium text-gray-900">
                 Email address
@@ -64,7 +68,7 @@ export default function Login({
               <div className="mt-2">
                 <input
                   id="email"
-                  name="email"
+                  {...register('email')}
                   type="email"
                   required
                   autoComplete="email"
@@ -87,7 +91,7 @@ export default function Login({
               <div className="mt-2">
                 <input
                   id="password"
-                  name="password"
+                  {...register('password')}
                   type="password"
                   required
                   autoComplete="current-password"
