@@ -43,17 +43,17 @@ export function UserProvider(props) {
         
         console.log("Logged in user:", result);
         
-        if (!result.isAuthenticated) {
-        throw new Error("Invalid user credentials");
-        }
+        //if (!result.isAuthenticated) {
+        //throw new Error("Invalid user credentials");
+        //}
         
         setUser(result);
     };
 
     const logoutHandler = () => {
-        return request('/users/logout', 'GET')
+        return request('/users/logout', 'GET', null, { accessToken: user.accessToken })
         .finally(() => {
-        setUser(null);
+            setUser(null);
         });
     };
 
