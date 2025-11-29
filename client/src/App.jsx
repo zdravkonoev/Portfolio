@@ -15,26 +15,35 @@ import EditPost from './components/blog/EditPost.jsx';
 
 function App() {
 
-  const [registeredUsers, setRegisteredUsers] = useState([]);
+  //const [registeredUsers, setRegisteredUsers] = useState([]);
   const [user, setUser] = useState(null);
 
-  const registerHandler = (email, password) => {
-    if (registeredUsers.find(u => u.email === email)) {
-      throw new Error("User already exists!");
-    }
-
+  const registerHandler = async(email, password) => {
+    
     const newUser = {email, password};
 
-    setRegisteredUsers(state => [...state, newUser]);
+    //Api Call to register user
+    const response = await fetch('http://localhost:3030/users/register', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(newUser),
+    });
+
+    const result = await response.json();
+
+    console.log("Registered user:", result);
+    //setRegisteredUsers(state => [...state, newUser]);
 
     // Auto-login after registration  
-    setUser(newUser);
+    setUser(result);
 
   };
 
   const loginHandler = (email, password) => {
 
-    const user = registeredUsers.find(u => u.email === email && u.password === password);
+    //const user = registeredUsers.find(u => u.email === email && u.password === password);
 
     if (!user) {
       throw new Error("Invalid user credentials");

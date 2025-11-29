@@ -9,7 +9,7 @@ export default function Register({
 
     const navigate = useNavigate();
 
-    const  registerSubmitHandler = (values) => {
+    const  registerSubmitHandler = async(values) => {
             const {email, password} = values;
             const confirmPassword = values['confirm-password'];
             console.log({email, password});
@@ -28,7 +28,7 @@ export default function Register({
             
             try {
                 //TODO: Register User
-                onRegister(email, password);
+                await onRegister(email, password);
 
                 //TODO: Redirect to login page
                 navigate('/');
