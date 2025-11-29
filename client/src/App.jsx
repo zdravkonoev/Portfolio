@@ -11,6 +11,7 @@ import Header from './components/header/Header.jsx'
 import AdminHeaders from './components/header/AdminHeader.jsx'
 import CreatePost from './components/blog/CreatePost.jsx';
 import EditPost from './components/blog/EditPost.jsx';
+import UserContext from './contexts/UserContext.js';
 
 
 function App() {
@@ -56,15 +57,23 @@ function App() {
     setUser(null);
   };
 
+  const userContextValues = {
+    user,
+    isAuthenticated: !!user?.accessToken,
+    registerHandler,
+    loginHandler,
+    logoutHandler
+  };
+
   return (
-    <>
+    <UserContext.Provider value={userContextValues} >
       {/* Remove administrative header */}
       {user && <AdminHeaders />}
       <Header user={user} />
       <Routes>
         <Route path="/" element={<Home user={user} />} />
         <Route path="*" element={<NotFound404 />} />
-        <Route path="/register" element={<Register onRegister={registerHandler} />} />
+        <Route path="/register" element={<Register />} />
         <Route path="/login" element={<Login onLogin={loginHandler} />} />
         <Route path="/logout" element={<Logout onLogout={logoutHandler} />} />
         <Route path="/blog" element={<Blog />} />
@@ -72,7 +81,7 @@ function App() {
         <Route path="/blog/:postRefId/post-edit" element={<EditPost />} />
         <Route path="/blog/post-create" element={<CreatePost />} />
       </Routes>
-    </>
+    </UserContext.Provider>
   )
 }
 
