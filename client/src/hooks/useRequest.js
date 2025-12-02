@@ -1,11 +1,13 @@
 
 const BASE_URL = 'http://localhost:3030';
-import { useContext } from "react";
+import { useContext, useEffect, useState } from "react";
 import UserContext from "../contexts/UserContext";
 
-export default function useRequest() {
+export default function useRequest(url, initalState) {
 
     const {user, isAutheticated} = useContext(UserContext); 
+
+    const [data, setData] = useState(initalState);
     
     const request = async (url, method, data, config={}) => {
         let options = {};
@@ -45,7 +47,17 @@ export default function useRequest() {
         return result;
     }
 
-    return { request };
+    useEffect(() => {
+        // Fetch initial data if URL is provided
+        if (!url) return;
+
+        request(url)
+          .then(result => setData(result))
+          .catch(error => console.error('Error fetching data:', error));
+
+    }, [url]);
+
+    return { request, data };
 }
 
 

@@ -1,28 +1,35 @@
-import { useEffect } from 'react';
+//import { useEffect } from 'react';
 import { useParams } from 'react-router'
-import { useState } from 'react';
+//import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Button } from '@headlessui/react'
 import { Link } from 'react-router-dom';
+import useRequest from '../../hooks/useRequest';
+//import { useUserContext } from '../../contexts/UserContext.js';
 
-const BASE_URL = `http://localhost:3030/jsonstore/blog-portfolio/posts`;
+//const BASE_URL = `http://localhost:3030/jsonstore/blog-portfolio/posts`;
 
 export default function DetailsPost() {
+    
+    //const {user, isAuthenticated} = useUserContext();
+
     const {postRefId} = useParams();
-    const [post, setPost] = useState({});
+    //const [post, setPost] = useState({});
     const navigate = useNavigate();
+
+    const {data : post, request} = useRequest(`/data/posts/${postRefId}`, {});
 
     console.log(postRefId);
 
-    useEffect(() => {
-        fetch(`${BASE_URL}/${postRefId}`)
-            .then(response => response.json())
-            .then(result => {
-                console.log(result);
-                setPost(result)
-            })
-            .catch(error => console.error('Error fetching post details:', error));
-    }, [postRefId]);
+    //useEffect(() => {
+    //    fetch(`${BASE_URL}/${postRefId}`)
+    //        .then(response => response.json())
+    //        .then(result => {
+    //            console.log(result);
+    //            setPost(result)
+    //        })
+    //        .catch(error => console.error('Error fetching post details:', error));
+    //}, [postRefId]);
 
     if (!post || !post.category || !post.author) return <p>Loading...</p>;
 
@@ -37,10 +44,8 @@ export default function DetailsPost() {
         }
 
         try {   
-            await fetch(`${BASE_URL}/${postRefId}`, {
-            method: 'DELETE',
-
-            })
+            //await fetch(`${BASE_URL}/${postRefId}`, {
+            await request(`/data/posts/${postRefId}`, 'DELETE');
             navigate('/blog');
         } catch(error) {
             alert('Error deleting post:', error);

@@ -1,16 +1,22 @@
 import { Link, Navigate, useNavigate } from "react-router-dom"; 
+import useForm from "../../hooks/useForm.js";
+import useRequest from "../../hooks/useRequest.js";
+
 export default function CreatePost() {
+
     const navigate = useNavigate();
+
+    const {request} = useRequest();
     
-    const createPostHandler = async (e) => {
-        e.preventDefault(); 
-        const formData = new FormData(e.target);
+    const createPostHandler = async (values) => {
+        
+        const formData = values;
 
         //const data = Object.fromEntries(formData);
 
-        formData.title = formData.get("title");
+        formData.title = values.get("title");
         formData.href = '#';
-        formData.description = formData.get("description");
+        formData.description = values.get("description");
 
         // Fix: use new Date
         formData.date = new Date(Date.now()).toLocaleDateString("en-US", {
@@ -27,35 +33,56 @@ export default function CreatePost() {
         formData.datetime = `${year}-${month}-${day}`;
 
         formData.category = {
-            title: formData.get("companyDepartment"),
+            title: values.get("companyDepartment"),
             href: '#'
         }
 
         formData.author = {
-            name: formData.get("authorName"),
-            role: formData.get("authorRole"),
+            name: values.get("authorName"),
+            role: values.get("authorRole"),
             href: '#',
-            imageUrl: formData.get("authorImage")
+            imageUrl: values.get("authorImage")
         };
         console.log(formData);
 
+        //This time POST data to Collection not jsonstore
         try {
-            const response = await fetch('http://localhost:3030/jsonstore/blog-portfolio/posts', {
-                method: 'POST',
-                headers: {  
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(formData)
-            });
 
-            const result = await response.json();
+            const result = await request('/data/posts', 'POST', formData);
             console.log("New post created with key:", result);
             navigate('/blog');
+
         } catch (error) {
             console.error('Error creating post:', error);
-        }   
+            return;
+        }
+
+        //try {
+        //    const response = await fetch('http://localhost:3030/jsonstore/blog-portfolio/posts', {
+        //        method: 'POST',
+        //        headers: {  
+        //            'Content-Type': 'application/json'
+        //        },
+        //        body: JSON.stringify(formData)
+        //    });
+//
+        //    const result = await response.json();
+        //    console.log("New post created with key:", result);
+        //    navigate('/blog');
+        //} catch (error) {
+        //    console.error('Error creating post:', error);
+        //}   
          
     }
+
+    const {register, formAction} = useForm(createPostHandler, {
+        title: '',
+        description: '',
+        companyDepartment: '',
+        authorName: '',
+        authorRole: '',
+        authorImage: ''
+    })
 
   return (
     <>
@@ -72,7 +99,7 @@ export default function CreatePost() {
             </div>
 
             <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
-            <form className="space-y-6" onSubmit={createPostHandler}>
+            <form className="space-y-6" action={formAction}>
                 <div>
                     <div>
                         <label htmlFor="title" className="block text-sm/6 font-medium text-gray-900">
@@ -82,7 +109,7 @@ export default function CreatePost() {
                     <div className="mt-2">
                         <input
                         id="title"
-                        name="title"
+                        {...register('title')}
                         type="text"
                         required
                         autoComplete="title"
@@ -100,7 +127,7 @@ export default function CreatePost() {
                     <div className="mt-2">
                         <textarea
                         id="description"
-                        name="description"
+                        {...register('description')}
                         type="text"
                         required
                         autoComplete="description"
@@ -118,7 +145,7 @@ export default function CreatePost() {
                   <div className="mt-2">
                       <input
                       id="companyDepartment"
-                      name="companyDepartment"
+                      {...register('companyDepartment')}
                       type="text"
                       required
                       autoComplete="company-department"
@@ -136,7 +163,7 @@ export default function CreatePost() {
                   <div className="mt-2">
                       <input
                       id="authorName"
-                      name="authorName"
+                      {...register('authorName')}
                       type="text"
                       required
                       autoComplete="author-name"
@@ -154,7 +181,7 @@ export default function CreatePost() {
                   <div className="mt-2">
                       <input
                       id="authorRole"
-                      name="authorRole"
+                      {...register('authorRole')}
                       type="text"
                       required
                       autoComplete="author-role"
@@ -172,7 +199,7 @@ export default function CreatePost() {
                   <div className="mt-2">
                       <input
                       id="authorImage"
-                      name="authorImage"
+                      {...register('authorImage')}
                       type="text"
                       required
                       autoComplete="author-image"

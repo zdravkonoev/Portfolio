@@ -2,51 +2,56 @@ import Hero from '../hero/Hero.jsx'
 import Experience from '../experience/Experience.jsx'
 import Statistics from '../statistics/Statistics.jsx'
 import Technologies from '../technologies/Technologies.jsx'
-import { useEffect, useState } from 'react';
 import Post from '../blog/Post.jsx';
-
+import useRequest from '../../hooks/useRequest.js';
 
 export default function Home() {
-  const BASE_URL = 'http://localhost:3030/jsonstore/blog-portfolio/';
 
-  const [latestPosts, setLatestPosts] = useState([]);
+
+
+  const {data: latestPosts} = useRequest('/data/posts?sortBy=_createdOn%20desc&pageSize=3',[]);
+  console.log(latestPosts)
+  
+  //const BASE_URL = 'http://localhost:3030/jsonstore/blog-portfolio/';
+
+  //const [latestPosts, setLatestPosts] = useState([]);
   
 
-  useEffect(() => {
-
-    fetch(BASE_URL)
-      .then(response => response.json())
-      .then(data => {
-        // Handle the fetched data
-        const latestPosts =  Object.entries(data.posts).map(([key, value]) => ({
-            postRefId: key,
-            ...value
-          }))
-        .sort((a, b) => new Date(b.date) - new Date(a.date))
-        .slice(0, 3);
-
-        console.log(latestPosts);
-        setLatestPosts(latestPosts);
-      }).catch(error => {
-        console.error('Error fetching blog posts:', error);
-      });
-
-      // !!!useEffect DO NOT SUPPORT ASYNC FUCTIONS!!!!
-      //(async () => {
-      //  try {
-      //    const response = await fetch(BASE_URL);
-      //    const data = await response.json();
-      //    setLatestPosts(Object.values(data.latestPosts));
-      //    
-      //    //Console log for checking fetched posts
-      //    console.log(Object.values(data.latestPosts));
-      //
-      //  } catch (error) {
-      //    console.error('Error fetching blog posts:', error);
-      //  }
-      //})();
-
-  }, []);
+  //useEffect(() => {
+//
+  //  fetch(BASE_URL)
+  //    .then(response => response.json())
+  //    .then(data => {
+  //      // Handle the fetched data
+  //      const latestPosts =  Object.entries(data.posts).map(([key, value]) => ({
+  //          postRefId: key,
+  //          ...value
+  //        }))
+  //      .sort((a, b) => new Date(b.date) - new Date(a.date))
+  //      .slice(0, 3);
+//
+  //      console.log(latestPosts);
+  //      setLatestPosts(latestPosts);
+  //    }).catch(error => {
+  //      console.error('Error fetching blog posts:', error);
+  //    });
+//
+  //    // !!!useEffect DO NOT SUPPORT ASYNC FUCTIONS!!!!
+  //    //(async () => {
+  //    //  try {
+  //    //    const response = await fetch(BASE_URL);
+  //    //    const data = await response.json();
+  //    //    setLatestPosts(Object.values(data.latestPosts));
+  //    //    
+  //    //    //Console log for checking fetched posts
+  //    //    console.log(Object.values(data.latestPosts));
+  //    //
+  //    //  } catch (error) {
+  //    //    console.error('Error fetching blog posts:', error);
+  //    //  }
+  //    //})();
+//
+  //}, []);
 
   return (
     <>

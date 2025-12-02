@@ -1,48 +1,52 @@
-import React, { useEffect } from 'react'
-import { useState } from 'react';
 import Post from './Post.jsx';
 import Header from '../header/Header.jsx'
 import { useLocation } from 'react-router-dom';
 import { Link } from 'react-router-dom';  
+import useRequest from '../../hooks/useRequest.js';
 
 export default function Blog() {
-  const [posts, setPosts] = useState([]);
-  const BASE_URL = 'http://localhost:3030/jsonstore/blog-portfolio/';
+  
+  const { data: posts } = useRequest('/data/posts/', []);
 
-  useEffect(() => {
-    document.title = "Blog - Colleague's Portfolio";
-
-    (async () => {
-      try {
-        const response = await fetch(BASE_URL);
-        const data = await response.json();
-        //setPosts(Object.values(data.posts));
-
-        setPosts(Object.entries(data.posts).map(([key, value]) => ({
-            postRefId: key,
-            ...value
-          }))
-        );
-        console.log(data.posts);
-      } catch (error) {
-        console.error('Error fetching blog posts:', error);
-      }
-    })();
-
-    ////Non async version
-    // fetch('http://localhost:3030/jsonstore/blog-portfolio/')
-    //   .then(response => response.json())
-    //   .then(data => {
-    //     // Handle the fetched data
-    //     setPosts(Object.values(data.posts));
-    //     console.log(Object.values(data.posts));
-    //   })
-    //   .catch(error => {
-    //     console.error('Error fetching blog posts:', error);
-    //   }); 
+  console.log(posts);
+  //console.log(updatedPosts);
 
 
-  }, []);
+  //const BASE_URL = 'http://localhost:3030/jsonstore/blog-portfolio/';
+
+  //useEffect(() => {
+  //  
+  //  (async () => {
+  //    try {
+  //      const response = await fetch(BASE_URL);
+  //      const data = await response.json();
+  //      //setPosts(Object.values(data.posts));
+//
+  //      setPosts(Object.entries(data.posts).map(([key, value]) => ({
+  //          postRefId: key,
+  //          ...value
+  //        }))
+  //      );
+  //      console.log(data.posts);
+  //    } catch (error) {
+  //      console.error('Error fetching blog posts:', error);
+  //    }
+  //  })();
+//
+  //  ////Non async version
+  //  // fetch('http://localhost:3030/jsonstore/blog-portfolio/')
+  //  //   .then(response => response.json())
+  //  //   .then(data => {
+  //  //     // Handle the fetched data
+  //  //     setPosts(Object.values(data.posts));
+  //  //     console.log(Object.values(data.posts));
+  //  //   })
+  //  //   .catch(error => {
+  //  //     console.error('Error fetching blog posts:', error);
+  //  //   }); 
+//
+//
+  //}, []);
 
   // To remove Header if I'm not in Blog Page
   const { pathname } = useLocation();

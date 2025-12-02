@@ -8,7 +8,8 @@ export default function Post({
     description, 
     author, 
     href,
-    postRefId
+    postRefId,
+    _id
 }) {
 
 return (
@@ -45,7 +46,10 @@ return (
             <p className="text-gray-400">{author.role}</p>
             </div>
         </div>
-        <Link to={`/blog/${postRefId}/post-details`} className="text-sm/6 font-semibold text-white mt-4">
+        {/* <Link to={`/blog/${postRefId}/post-details`} className="text-sm/6 font-semibold text-white mt-4">
+            Read More &rarr;
+        </Link> */}
+        <Link to={`/blog/${_id}/post-details`} className="text-sm/6 font-semibold text-white mt-4">
             Read More &rarr;
         </Link>
     </article>
