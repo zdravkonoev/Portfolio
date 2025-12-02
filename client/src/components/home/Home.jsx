@@ -4,6 +4,7 @@ import Statistics from '../statistics/Statistics.jsx'
 import Technologies from '../technologies/Technologies.jsx'
 import Post from '../blog/Post.jsx';
 import useRequest from '../../hooks/useRequest.js';
+import LatestProjects from '../latest-projects/LatestProjects.jsx';
 
 export default function Home() {
 
@@ -57,6 +58,7 @@ export default function Home() {
     <>
       <Hero />
       <Experience />
+      <LatestProjects />
       <Statistics />
       <Technologies />
       {/* <Blog /> */}
