@@ -1,101 +1,122 @@
-import { useState } from "react";
 import { useEffect } from "react";
 import { useParams } from "react-router";
 import { useNavigate } from "react-router-dom"; 
+import useForm from "../../hooks/useForm";
+import useRequest from "../../hooks/useRequest";
+import { useContext } from "react";
+import UserContext from "../../contexts/UserContext.jsx";
 
-const initalValues = {
-    id: '',
-    date: '',
-    datetime: '',
-    title:'',
-    description: '',
-    companyDepartment: '',
-    authorName: '',
-    authorRole:'',
-    authorImage:''
-}
+
 
 export default function EditPost() {
+
     const navigate = useNavigate();
-    const {postRefId} = useParams(); //Get postId from URL params    
-    const [values, setValues] = useState(initalValues);
+    const {postRefId} = useParams(); //Get postId from URL params
+    const {user} = useContext(UserContext);
+    
+    const {request} = useRequest(`/data/posts/${postRefId}`, {});
+    //const [values, setValues] = useState(initalValues);
     console.log(postRefId);
 
-    //Handle input changes of a controlled form
-    const changePostHandler = (e) => {
-        setValues(state => ({
-            ...state,
-            [e.target.name]: e.target.value
-        }));
-    }
-
-    useEffect(() => {
-
-        fetch(`http://localhost:3030/jsonstore/blog-portfolio/posts/${postRefId}`)
-        .then(response => response.json())
-        .then(result => {
-            //Always return a new object not overwrite initalValues !!!
-            const updatedValues = { 
-            id: result.id,
-            date: result.date,
-            datetime: result.datetime,
-            title: result.title,
-            description: result.description,
-            companyDepartment: result.category.title,
-            authorName: result.author.name,
-            authorRole: result.author.role,
-            authorImage: result.author.imageUrl
-            };
-            console.log(updatedValues);
-            setValues(updatedValues);
-            
-        })
-        .catch(error => console.error('Error fetching post details:', error));//Fetch post data and fill the form
-    }, [postRefId]);
-
-
-    
-    const submitEditedPostHandler = async (e) => {
-        e.preventDefault(); //Otherwise reload page
-
-        const updatePost = {
-            id: values.id,
-            title: values.title,
-            href: '#',
-            description: values.description,
-            date: values.date,
-            datetime: values.datetime,
-            category: {
-                title: values.companyDepartment,
-                href: '#'
-            },
-            author: {
-                name: values.authorName,
-                role: values.authorRole,
-                href: '#',
-                imageUrl: values.authorImage
-            }
-        }
-        console.log("UPDATED POST:", updatePost);
-        console.log("STRINGIFIED:", JSON.stringify(updatePost));
-
+    const editPostHandler = async (values) => {
         try {
-            await fetch(`http://localhost:3030/jsonstore/blog-portfolio/posts/${postRefId}`, {
-                method: 'PUT', // Use PUT to update existing resource
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(updatePost)
-            });
-            console.log(values);
+            await request(`/data/posts/${postRefId}`, 'PUT', values, {accessToken: user.accessToken});
+            console.log("Edited Values", values);
             navigate(`/blog/${postRefId}/post-details`);
-
+            
         } catch (error) {
             console.error('Error editing post:', error);
         }
-
-        
     }
+    
+    const  {
+            register,
+            formAction,
+            setValues
+        } = useForm(editPostHandler, {
+            id: '',
+            date: '',
+            datetime: '',
+            title:'',
+            description: '',
+            companyDepartment: '',
+            authorName: '',
+            authorRole:'',
+            authorImage:''
+    });
+
+    //Handle input changes of a controlled form
+   //const changePostHandler = (value) => {
+   //    setValues(state => ({
+   //        ...state,
+   //        [e.target.name]: e.target.value
+   //    }));
+   //}
+
+    useEffect(() => {
+
+        request(`/data/posts/${postRefId}`)
+        .then(result => {
+            console.log("FETCHED POST DATA:", result);
+            setValues({
+                id: result.id,
+                date: result.date,
+                datetime: result.datetime, 
+                title: result.title,
+                description: result.description,
+                companyDepartment: result.category.title,
+                authorName: result.author.name,
+                authorRole: result.author.role,
+                authorImage: result.author.imageUrl
+            });
+            
+        })
+        .catch(error => console.error('Error fetching post details:', error));//Fetch post data and fill the form
+    }, [postRefId, setValues]);
+
+    
+
+    //const submitEditedPostHandler = async (e) => {
+    //    e.preventDefault(); //Otherwise reload page
+//
+    //    const updatePost = {
+    //        id: values.id,
+    //        title: values.title,
+    //        href: '#',
+    //        description: values.description,
+    //        date: values.date,
+    //        datetime: values.datetime,
+    //        category: {
+    //            title: values.companyDepartment,
+    //            href: '#'
+    //        },
+    //        author: {
+    //            name: values.authorName,
+    //            role: values.authorRole,
+    //            href: '#',
+    //            imageUrl: values.authorImage
+    //        }
+    //    }
+    //    console.log("UPDATED POST:", updatePost);
+    //    console.log("STRINGIFIED:", JSON.stringify(updatePost));
+//
+    //    try {
+    //        await fetch(`http://localhost:3030/jsonstore/blog-portfolio/posts/${postRefId}`, {
+    //            method: 'PUT', // Use PUT to update existing resource
+    //            headers: {
+    //                'Content-Type': 'application/json'
+    //            },
+    //            body: JSON.stringify(updatePost)
+    //        });
+    //        console.log(values);
+    //        navigate(`/blog/${postRefId}/post-details`);
+//
+    //    } catch (error) {
+    //        console.error('Error editing post:', error);
+    //    }
+//
+    //    
+    //}
 
     return (
         <>
@@ -112,7 +133,7 @@ export default function EditPost() {
             </div>
 
             <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
-                <form className="space-y-6" onSubmit={submitEditedPostHandler}>
+                <form className="space-y-6" action={formAction}>
                     <div>
                         <div>
                             <label htmlFor="title" className="block text-sm/6 font-medium text-gray-900">
@@ -122,10 +143,8 @@ export default function EditPost() {
                         <div className="mt-2">
                             <input
                             id="title"
-                            name="title"
+                            {...register('title')}
                             type="text"
-                            onChange={changePostHandler}
-                            value={values.title}
                             required
                             autoComplete="title"
                             className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
@@ -142,10 +161,8 @@ export default function EditPost() {
                         <div className="mt-2">
                             <textarea
                             id="description"
-                            name="description"
+                            {...register('description')}
                             type="text"
-                            onChange={changePostHandler}
-                            value={values.description}
                             required
                             autoComplete="description"
                             className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
@@ -162,10 +179,8 @@ export default function EditPost() {
                         <div className="mt-2">
                             <input
                             id="companyDepartment"
-                            name="companyDepartment"
+                            {...register('companyDepartment')}
                             type="text"
-                            onChange={changePostHandler}
-                            value={values.companyDepartment}
                             required
                             autoComplete="company-department"
                             className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
@@ -182,10 +197,8 @@ export default function EditPost() {
                         <div className="mt-2">
                             <input
                             id="authorName"
-                            name="authorName"
+                            {...register('authorName')}
                             type="text"
-                            onChange={changePostHandler}
-                            value={values.authorName}
                             required
                             autoComplete="author-name"
                             className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
@@ -202,10 +215,8 @@ export default function EditPost() {
                         <div className="mt-2">
                             <input
                             id="authorRole"
-                            name="authorRole"
+                            {...register('authorRole')}
                             type="text"
-                            onChange={changePostHandler}
-                            value={values.authorRole}
                             required
                             autoComplete="author-role"
                             className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
@@ -222,10 +233,8 @@ export default function EditPost() {
                         <div className="mt-2">
                             <input
                             id="authorImage"
-                            name="authorImage"
+                            {...register('authorImage')}
                             type="text"
-                            onChange={changePostHandler}
-                            value={values.authorImage}
                             required
                             autoComplete="author-image"
                             className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"

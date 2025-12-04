@@ -1,12 +1,16 @@
 import { Link, Navigate, useNavigate } from "react-router-dom"; 
 import useForm from "../../hooks/useForm.js";
 import useRequest from "../../hooks/useRequest.js";
+import { useContext } from "react";
+import UserContext from "../../contexts/UserContext.jsx";
 
 export default function CreatePost() {
 
     const navigate = useNavigate();
 
     const {request} = useRequest();
+
+    const {user} = useContext(UserContext);
     
     const createPostHandler = async (values) => {
         
@@ -14,9 +18,9 @@ export default function CreatePost() {
 
         //const data = Object.fromEntries(formData);
 
-        formData.title = values.get("title");
+        formData.title = values.title
         formData.href = '#';
-        formData.description = values.get("description");
+        formData.description = values.description;
 
         // Fix: use new Date
         formData.date = new Date(Date.now()).toLocaleDateString("en-US", {
@@ -33,22 +37,22 @@ export default function CreatePost() {
         formData.datetime = `${year}-${month}-${day}`;
 
         formData.category = {
-            title: values.get("companyDepartment"),
+            title: values.companyDepartment,
             href: '#'
         }
 
         formData.author = {
-            name: values.get("authorName"),
-            role: values.get("authorRole"),
+            name: values.authorName,
+            role: values.authorRole,
             href: '#',
-            imageUrl: values.get("authorImage")
+            imageUrl: values.authorImage
         };
         console.log(formData);
 
         //This time POST data to Collection not jsonstore
         try {
 
-            const result = await request('/data/posts', 'POST', formData);
+            const result = await request('/data/posts', 'POST', formData, {accessToken: user.accessToken});
             console.log("New post created with key:", result);
             navigate('/blog');
 

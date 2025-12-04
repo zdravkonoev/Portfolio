@@ -3,7 +3,7 @@ export default function Avatar({
 }) {
   return (
     <>
-      <img src={avatarUrl} alt="" class="inline-block size-70 rounded-full ring-2 ring-white outline -outline-offset-1 outline-black/5" />
+      <img src={avatarUrl} alt="" className="inline-block size-70 rounded-full ring-2 ring-white outline -outline-offset-1 outline-black/5" />
     </>
   )
 }

@@ -23,8 +23,10 @@ export default function useRequest(url, initalState) {
             options.body = JSON.stringify(data);
             
         }
+        console.log("User acccess Toekn:", config.accessToken);
+        console.log("User isAutheticated:", isAutheticated);
 
-        if (config.accessToken ||isAutheticated) {
+        if (config.accessToken || isAutheticated) {
             options.headers = {
                 ...options.headers,
                 "X-Authorization": config.accessToken || user.accessToken,
