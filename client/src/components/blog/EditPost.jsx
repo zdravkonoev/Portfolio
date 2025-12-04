@@ -19,9 +19,47 @@ export default function EditPost() {
     console.log(postRefId);
 
     const editPostHandler = async (values) => {
+
+        const formData = values;
+
+        //const data = Object.fromEntries(formData);
+
+        formData.title = values.title
+        formData.href = '#';
+        formData.description = values.description;
+
+        // Fix: use new Date
+        formData.date = new Date(Date.now()).toLocaleDateString("en-US", {
+            month: "short",
+            day: "numeric",
+            year: "numeric"
+        });
+
+        const datetime = new Date();
+        const year = datetime.getFullYear();
+        const month = String(datetime.getMonth() + 1).padStart(2, "0");
+        const day = String(datetime.getDate()).padStart(2, "0");
+
+        formData.datetime = `${year}-${month}-${day}`;
+
+        formData.category = {
+            title: values.companyDepartment,
+            href: '#'
+        }
+
+        formData.author = {
+            name: values.authorName,
+            role: values.authorRole,
+            href: '#',
+            imageUrl: values.authorImage
+        };
+        console.log(formData);
+
+
         try {
-            await request(`/data/posts/${postRefId}`, 'PUT', values, {accessToken: user.accessToken});
-            console.log("Edited Values", values);
+
+            await request(`/data/posts/${postRefId}`, 'PUT', formData, {accessToken: user.accessToken});
+            console.log("Edited Values", formData);
             navigate(`/blog/${postRefId}/post-details`);
             
         } catch (error) {
