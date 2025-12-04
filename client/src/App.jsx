@@ -22,7 +22,7 @@ function App() {
     <>
       {/* Remove administrative header */}
       {user && <AdminHeaders />}
-      <Header user={user} />
+      <Header />
       <Routes>
         <Route path="/" element={<Home user={user} />} />
         <Route path="*" element={<NotFound404 />} />

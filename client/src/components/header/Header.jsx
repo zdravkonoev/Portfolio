@@ -2,6 +2,8 @@ import { Dialog, DialogPanel } from '@headlessui/react'
 import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline'
 import { Link } from 'react-router-dom';
 import { useState } from 'react';
+import { useContext } from "react";
+import UserContext from "../../contexts/UserContext.jsx";
 
 const navigation = [
   { name: 'About Me', href: '#' },
@@ -11,10 +13,9 @@ const navigation = [
   { name: 'Contact', href: '#' },
 ]
 
-export default function Header({
-  user,
-}) {
+export default function Header() {
     const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
+    const {user} = useContext(UserContext);
   return (
     <header className="absolute inset-x-0 z-50 mx-auto px-2 sm:px-6 lg:px-8 bg-gray-900">{/* top-0  */}
         <nav aria-label="Global" className="flex items-center justify-between p-6 lg:px-8 max-w-7xl mx-auto">

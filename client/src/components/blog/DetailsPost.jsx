@@ -5,13 +5,14 @@ import { useNavigate } from 'react-router-dom';
 import { Button } from '@headlessui/react'
 import { Link } from 'react-router-dom';
 import useRequest from '../../hooks/useRequest';
-//import { useUserContext } from '../../contexts/UserContext.js';
+import { useContext } from "react";
+import UserContext from "../../contexts/UserContext.jsx";
 
 //const BASE_URL = `http://localhost:3030/jsonstore/blog-portfolio/posts`;
 
 export default function DetailsPost() {
     
-    //const {user, isAuthenticated} = useUserContext();
+    const {user} = useContext(UserContext);
 
     const {postRefId} = useParams();
     //const [post, setPost] = useState({});
@@ -20,6 +21,8 @@ export default function DetailsPost() {
     const {data : post, request} = useRequest(`/data/posts/${postRefId}`, {});
 
     console.log(postRefId);
+    console.log(post);
+    console.log(user);
 
     //useEffect(() => {
     //    fetch(`${BASE_URL}/${postRefId}`)
@@ -45,7 +48,7 @@ export default function DetailsPost() {
 
         try {   
             //await fetch(`${BASE_URL}/${postRefId}`, {
-            await request(`/data/posts/${postRefId}`, 'DELETE');
+            await request(`/data/posts/${postRefId}`, 'DELETE', null, {accessToken: user.accessToken});
             navigate('/blog');
         } catch(error) {
             alert('Error deleting post:', error);
@@ -94,14 +97,18 @@ return (
                             <p className="text-gray-400">{post.author.role}</p>
                             </div>
                         </div>
+                        {user?._id === post._ownerId ?
                         <div className="mr-5 flex items-center justify-center gap-x-6">
+                            
                             <Link to={`/blog/${postRefId}/post-edit`} className="text-sm/6 font-semibold text-white text-nowrap">
                                 Edit <span aria-hidden="true">→</span>
                             </Link>
                             <button onClick={deletePostHandler} className="rounded-md bg-indigo-500 px-3.5 py-2.5 text-sm font-semibold text-white shadow-xs hover:bg-indigo-400 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500">
                                 Delete
                             </button>
+                            
                         </div>
+                        : null}
                     </div>
                 </article>
             </div>

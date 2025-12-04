@@ -3,9 +3,13 @@ import Header from '../header/Header.jsx'
 import { useLocation } from 'react-router-dom';
 import { Link } from 'react-router-dom';  
 import useRequest from '../../hooks/useRequest.js';
+import { useContext } from "react";
+import UserContext from "../../contexts/UserContext.jsx";
 
 export default function Blog() {
   
+  const {user} = useContext(UserContext);
+
   const { data: posts } = useRequest('/data/posts/', []);
 
   console.log(posts);
@@ -61,10 +65,11 @@ export default function Blog() {
               <h2 className="text-4xl font-semibold tracking-tight text-pretty text-white sm:text-5xl">Blog</h2>
               <p className="mt-2 text-lg/8 text-gray-300">Here are the post form my colleagues about my work wiht them.</p>
             </div>
-            <div>
+            <div>{!user ? null :
                 <Link to="/blog/post-create" className="rounded-md bg-indigo-500 px-3.5 py-2.5 text-sm font-semibold text-white shadow-xs hover:bg-indigo-400 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500">
                   Create Post
                 </Link>
+}
             </div>
           </div>
           <div className="mx-auto mt-10 grid max-w-2xl grid-cols-1 gap-x-8 gap-y-16 border-t border-gray-700 pt-10 sm:mt-16 sm:pt-16 lg:mx-0 lg:max-w-none lg:grid-cols-3">
