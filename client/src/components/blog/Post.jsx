@@ -8,7 +8,7 @@ export default function Post({
     description, 
     author, 
     href,
-    postRefId,
+    //postRefId,
     _id
 }) {
 
