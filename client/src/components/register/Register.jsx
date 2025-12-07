@@ -3,43 +3,103 @@ import { useNavigate } from "react-router-dom";
 import useForm from "../../hooks/useForm";
 import { useContext } from "react";
 import UserContext from "../../contexts/UserContext";
+import { useState } from "react";
 
 
 export default function Register() {
+
+    const [errors, setErrors] = useState({});
+
+    function validate(values) {
+
+        let errors = {};
+
+        //Validate email field
+        if (values.email && values.email.length < 6) {
+            errors['email'] = "Email must be at least 6 characters long";
+        }
+        
+        if (!values.email) {
+            errors['email'] = "Email is required";
+        }
+
+        if (values.password && values.password.length < 5) {
+            errors['password'] = "Password must be at least 5 characters long";
+        }
+
+        if (!values.password) {
+            errors['password'] = "Password is required";
+        }
+
+        if (values['confirm-password'] && values['confirm-password'].length < 5) {
+            errors['confirm-password'] = "Confirm Password must be at least 5 characters long";
+        }
+
+
+        if (!values['confirm-password']) {
+            errors['confirm-password'] = "Confirm Password is required";
+        }
+
+        if (values.password && values['confirm-password'] && values.password !== values['confirm-password']) {
+            errors['confirm-password'] = "Passwords do not match!";
+        }
+
+        return errors;
+
+    }
+
+    const inputClass = (field) => `${errors[field] ? 'outline-red-500 focus:outline-red-600' : ''} block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6`;
+
+    const errorText = (field) => errors[field] && (
+        <p className="mt-2 text-sm text-red-600">{errors[field]}</p>
+    );
+    //END Validation functions
 
     const navigate = useNavigate();
     const { registerHandler } = useContext(UserContext);
 
     const  registerSubmitHandler = async(values) => {
-            const {email, password} = values;
-            const confirmPassword = values['confirm-password'];
-            console.log({email, password});
-
-            //TODO: Validation
-            if (!email || !password || !confirmPassword) {
-                alert("All fields are required");
-                return;
-            }
-
-            if (password !== confirmPassword) { 
-                alert("Passwords do not match");
-                return;
-            }
-
             
-            try {
-                //TODO: Register User
-                await registerHandler(email, password);
+        console.log("Register attempt:", values);
+        const errors = validate(values);
+        setErrors(errors);
+        
+        console.log("Validation errors:", errors);
+        if (Object.keys(errors).length > 0) {
+            //alert(Object.values(errors).join('\n'));
+            return;
+        }
 
-                //TODO: Redirect to login page
-                navigate('/');
 
-            } catch (error) {
-                console.error("Registration error:", error);
-                alert(error.message);
-            }   
+        const {email, password} = values;
+        //const confirmPassword = values['confirm-password'];
+        console.log({email, password});
 
-            console.log("User registered:", {email});   
+        //TODO: Validation
+        //if (!email || !password || !confirmPassword) {
+        //    alert("All fields are required");
+        //    return;
+        //}
+        
+        //if (password !== confirmPassword) { 
+        //    alert("Passwords do not match");
+        //    return;
+        //}
+
+        
+        try {
+            //TODO: Register User
+            await registerHandler(email, password);
+
+            //TODO: Redirect to login page
+            navigate('/');
+
+        } catch (error) {
+            console.error("Registration error:", error);
+            alert(error.message);
+        }   
+
+        console.log("User registered:", {email});
 
             
     }
@@ -50,6 +110,9 @@ export default function Register() {
         password: '',
         'confirm-password': '',
     });
+
+    
+
 
     return (
         <>
@@ -86,8 +149,9 @@ export default function Register() {
                         required
                         autoComplete="email"
                         {...register('email')}
-                        className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
+                        className={inputClass('email')}
                         />
+                        {errorText('email')}
                     </div>
                 </div>
 
@@ -104,8 +168,9 @@ export default function Register() {
                         required
                         autoComplete="current-password"
                         {...register('password')}
-                        className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
+                        className={inputClass('password')}
                         />
+                        {errorText('password')}
                     </div>
                 </div>
 
@@ -122,8 +187,9 @@ export default function Register() {
                         required
                         autoComplete="current-password"
                         {...register('confirm-password')}
-                        className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
+                        className={inputClass('confirm-password')}
                         />
+                        {errorText('confirm-password')}
                     </div>
                 </div>
                 
