@@ -12,11 +12,24 @@ import CreatePost from './components/blog/CreatePost.jsx';
 import EditPost from './components/blog/EditPost.jsx';
 import { useContext } from 'react';
 import UserContext from './contexts/UserContext';
+import { useLocation } from 'react-router-dom';
+import { useEffect } from 'react';
 
 
-function App() {
+export default function App() {
 
   const {user} = useContext(UserContext);
+
+  const location = useLocation();
+
+  useEffect(() => {
+    if (location.hash) {
+      const el = document.querySelector(location.hash);
+      if (el) {
+        el.scrollIntoView({ behavior: "smooth" });
+      }
+    }
+  }, [location]);
 
   return (
     <>
@@ -37,5 +50,3 @@ function App() {
     </>
   )
 }
-
-export default App
