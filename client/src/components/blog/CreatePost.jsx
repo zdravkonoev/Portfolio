@@ -7,96 +7,26 @@ import { Label, Listbox, ListboxButton, ListboxOption, ListboxOptions } from '@h
 import { ChevronUpDownIcon } from '@heroicons/react/16/solid'
 import { CheckIcon } from '@heroicons/react/20/solid'
 import { useState } from "react";
+import { categories, roles, validate } from "./data.js";
 
 
 
 export default function CreatePost() {
-    const categories = [
-        "Marketing",
-        "Sales",
-        "Development",
-        "Technology",
-        "Lifestyle",
-        "Travel",
-        "Food",
-        "Business",
-    ];
+    //BEGIN Validation functions
+    const [errors, setErrors] = useState({});    
 
-    const roles = [
-        "Co-Founder",
-        "Front-end Developer",
-        "Designer",
-        "Back-end Developer",
-        "Director of Product",
-        "Project Manager",
-        "CEO",
-        "CFO",
-    ];
+    const inputClass = (field) => `${errors[field] ? 'outline-red-500 focus:outline-red-600' : ''} block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6`;
 
-    const people = [
-        {
-            id: 1,
-            name: 'Wade Cooper',
-            avatar:
-            'https://images.unsplash.com/photo-1491528323818-fdd1faba62cc?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
-        },
-        {
-            id: 2,
-            name: 'Arlene Mccoy',
-            avatar:
-            'https://images.unsplash.com/photo-1550525811-e5869dd03032?ixlib=rb-1.2.1&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
-        },
-        {
-            id: 3,
-            name: 'Devon Webb',
-            avatar:
-            'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2.25&w=256&h=256&q=80',
-        },
-        {
-            id: 4,
-            name: 'Tom Cook',
-            avatar:
-            'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
-        },
-        {
-            id: 5,
-            name: 'Tanya Fox',
-            avatar:
-            'https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
-        },
-        {
-            id: 6,
-            name: 'Hellen Schmidt',
-            avatar:
-            'https://images.unsplash.com/photo-1487412720507-e7ab37603c6f?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
-        },
-        {
-            id: 7,
-            name: 'Caroline Schultz',
-            avatar:
-            'https://images.unsplash.com/photo-1568409938619-12e139227838?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
-        },
-        {
-            id: 8,
-            name: 'Mason Heaney',
-            avatar:
-            'https://images.unsplash.com/photo-1531427186611-ecfd6d936c79?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
-        },
-        {
-            id: 9,
-            name: 'Claudie Smitham',
-            avatar:
-            'https://images.unsplash.com/photo-1584486520270-19eca1efcce5?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
-        },
-        {
-            id: 10,
-            name: 'Emil Schaefer',
-            avatar:
-            'https://images.unsplash.com/photo-1561505457-3bcad021f8ee?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
-        },
-    ]
+    const errorText = (field) => errors[field] && (
+        <p className="mt-2 text-sm text-red-600">{errors[field]}</p>
+    );
 
-    const [selected, setSelected] = useState(people[3])
+
+    //END Validation functions
+
+        
+
+    //const [selected, setSelected] = useState(people[3])
 
     const navigate = useNavigate();
 
@@ -105,6 +35,18 @@ export default function CreatePost() {
     const {user} = useContext(UserContext);
     
     const createPostHandler = async (values) => {
+
+        //BEGIN: Check for validation errors
+        console.log("Register attempt:", values);
+        const errors = validate(values);
+        setErrors(errors);
+        
+        console.log("Validation errors:", errors);
+        if (Object.keys(errors).length > 0) {
+            //alert(Object.values(errors).join('\n'));
+            return;
+        }
+        //BEGIN: Check for validation errors
         
         const formData = values;
 
@@ -209,8 +151,9 @@ export default function CreatePost() {
                         type="text"
                         required
                         autoComplete="title"
-                        className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
+                        className={inputClass('title')}
                         />
+                        {errorText('title')}
                     </div>
                 </div>
 
@@ -227,8 +170,9 @@ export default function CreatePost() {
                         type="text"
                         required
                         autoComplete="description"
-                        className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
+                        className={inputClass('description')}
                         />
+                        {errorText('description')}
                     </div>
                 </div>
 
@@ -248,9 +192,9 @@ export default function CreatePost() {
                       className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
                       /> */}
                       <select
-                            id="authorRole"
+                            id="companyDepartment"
                             {...register('companyDepartment')}
-                            className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
+                            className={inputClass('companyDepartment')}
                             >
                             <option value="">-- Select --</option>
                             {categories.map((cat) => (
@@ -259,6 +203,7 @@ export default function CreatePost() {
                             </option>
                             ))}
                     </select>
+                    {errorText('companyDepartment')}
                   </div>
                 </div>
 
@@ -321,8 +266,9 @@ export default function CreatePost() {
                       type="text"
                       required
                       autoComplete="author-name"
-                      className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
+                      className={inputClass('authorName')}
                       />
+                      {errorText('authorName')}
                   </div>
                 </div>
 
@@ -344,7 +290,7 @@ export default function CreatePost() {
                       <select
                             id="authorRole"
                             {...register('authorRole')}
-                            className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
+                            className={inputClass('authorRole')}
                             >
                             <option value="">-- Select --</option>
                             {roles.map((role) => (
@@ -353,6 +299,7 @@ export default function CreatePost() {
                             </option>
                             ))}
                     </select>
+                    {errorText('authorRole')}
                   </div>
                 </div>
 

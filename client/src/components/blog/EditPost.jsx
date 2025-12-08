@@ -5,10 +5,24 @@ import useForm from "../../hooks/useForm";
 import useRequest from "../../hooks/useRequest";
 import { useContext } from "react";
 import UserContext from "../../contexts/UserContext.jsx";
+import { categories, roles, validate } from "./data.js";
+import { useState } from "react";
 
 
 
 export default function EditPost() {
+
+    //BEGIN Validation functions
+    const [errors, setErrors] = useState({});    
+
+    const inputClass = (field) => `${errors[field] ? 'outline-red-500 focus:outline-red-600' : ''} block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6`;
+
+    const errorText = (field) => errors[field] && (
+        <p className="mt-2 text-sm text-red-600">{errors[field]}</p>
+    );
+
+
+    //END Validation functions
 
     const navigate = useNavigate();
     const {postRefId} = useParams(); //Get postId from URL params
@@ -19,6 +33,18 @@ export default function EditPost() {
     console.log(postRefId);
 
     const editPostHandler = async (values) => {
+
+        //BEGIN: Check for validation errors
+        console.log("Edit attempt:", values);
+        const errors = validate(values);
+        setErrors(errors);
+        
+        console.log("Validation errors:", errors);
+        if (Object.keys(errors).length > 0) {
+            //alert(Object.values(errors).join('\n'));
+            return;
+        }
+        //BEGIN: Check for validation errors
 
         const formData = values;
 
@@ -187,6 +213,7 @@ export default function EditPost() {
                             autoComplete="title"
                             className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
                             />
+                            {errorText('title')}
                         </div>
                     </div>
 
@@ -205,6 +232,7 @@ export default function EditPost() {
                             autoComplete="description"
                             className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
                             />
+                            {errorText('description')}
                         </div>
                     </div>
 
@@ -215,14 +243,27 @@ export default function EditPost() {
                             </label>
                         </div>
                         <div className="mt-2">
-                            <input
+                            {/* <input
                             id="companyDepartment"
                             {...register('companyDepartment')}
                             type="text"
                             required
                             autoComplete="company-department"
                             className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
-                            />
+                            /> */}
+                            <select
+                                    id="companyDepartment"
+                                    {...register('companyDepartment')}
+                                    className={inputClass('companyDepartment')}
+                                    >
+                                    <option value="">-- Select --</option>
+                                    {categories.map((cat) => (
+                                    <option key={cat} value={cat}>
+                                        {cat}
+                                    </option>
+                                    ))}
+                            </select>
+                            {errorText('companyDepartment')}
                         </div>
                     </div>
 
@@ -241,6 +282,7 @@ export default function EditPost() {
                             autoComplete="author-name"
                             className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
                             />
+                            {errorText('authorName')}
                         </div>
                     </div>
 
@@ -251,14 +293,27 @@ export default function EditPost() {
                             </label>
                         </div>
                         <div className="mt-2">
-                            <input
+                            {/* <input
                             id="authorRole"
                             {...register('authorRole')}
                             type="text"
                             required
                             autoComplete="author-role"
                             className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
-                            />
+                            /> */}
+                            <select
+                                    id="authorRole"
+                                    {...register('authorRole')}
+                                    className={inputClass('authorRole')}
+                                    >
+                                    <option value="">-- Select --</option>
+                                    {roles.map((role) => (
+                                    <option key={role} value={role}>
+                                        {role}
+                                    </option>
+                                    ))}
+                            </select>
+                            {errorText('authorRole')}
                         </div>
                     </div>
 
@@ -277,6 +332,7 @@ export default function EditPost() {
                             autoComplete="author-image"
                             className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
                             />
+                            {errorText('authorImage')}
                         </div>
                     </div>
                     
