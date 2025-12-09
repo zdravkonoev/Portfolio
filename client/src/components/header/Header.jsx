@@ -10,7 +10,7 @@ import UserContext from "../../contexts/UserContext.jsx";
 const navigation = [
   { name: 'About Me', href: '/' },
   { name: 'Experience', href: '/#experience' },
-  { name: 'My Work', href: '/#latest-projects' },
+  { name: 'Projects', href: '/#projects' },
   { name: 'Statistics', href: '/#statistics' },
   { name: 'Blog', href: '/blog' },
   

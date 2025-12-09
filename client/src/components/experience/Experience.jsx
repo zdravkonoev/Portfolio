@@ -1,7 +1,7 @@
 import { CloudArrowUpIcon, LockClosedIcon, ServerIcon } from '@heroicons/react/20/solid'
 import  ccdProjectApp from "../../assets/images/ccd-project-app-screenshot.png"
 
-export default function Example() {
+export default function Experience() {
   return (
     <div className="relative isolate overflow-hidden bg-white px-6 py-24 sm:py-32 lg:overflow-visible lg:px-0">
       <a id="experience"></a>
