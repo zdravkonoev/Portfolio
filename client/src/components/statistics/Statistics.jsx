@@ -1,14 +1,15 @@
-const links = [
-  { name: 'Open roles', href: '#' },
-  { name: 'Internship program', href: '#' },
-  { name: 'Our values', href: '#' },
-  { name: 'Meet our leadership', href: '#' },
-]
+// const links = [
+//   { name: 'Open roles', href: '#' },
+//   { name: 'Internship program', href: '#' },
+//   { name: 'Our values', href: '#' },
+//   { name: 'Meet our leadership', href: '#' },
+// ]
 const stats = [
   { name: 'Years of Experience', value: '12' },
-  { name: 'Full-time colleagues', value: '300+' },
+  { name: 'Working Projects', value: '300+' },
   { name: 'Hours per week', value: '40' },
-  { name: 'Paid time off', value: 'Unlimited' },
+  { name: 'Client satisfaction score', value: '95%' },
+  { name: 'Completed courses', value: '20+' },
 ]
 
 export default function Statistics() {
@@ -47,22 +48,24 @@ export default function Statistics() {
           />
         </div>
         <div className="mx-auto max-w-7xl px-6 lg:px-8">
-          <div className="mx-auto max-w-2xl lg:mx-0">
+          <div className="mx-auto max-w-4xl lg:mx-0">
             <h2 className="text-5xl font-semibold tracking-tight text-white sm:text-7xl">Statistics</h2>
             <p className="mt-8 text-lg font-medium text-pretty text-gray-300 sm:text-xl/8">
-              Anim aute id magna aliqua ad ad non deserunt sunt. Qui irure qui lorem cupidatat commodo. Elit sunt amet
-              fugiat veniam occaecat fugiat.
+              With over 12 years in the industry, I’ve worked on hundreds of projects, consistently delivering reliable, well-built software and collaborating effectively with teams of all sizes. My focus has always been on creating stable solutions, keeping high quality standards, and continuously improving my craft.
+            </p>
+            <p className="mt-8 text-lg font-medium text-pretty text-gray-300 sm:text-xl/8">
+            I stay in full learning mode—taking courses, exploring new technologies, and refining my workflow week after week. I maintain steady productivity and a balanced work rhythm, ensuring I can bring clarity, speed, and long-term value to every project I take on.
             </p>
           </div>
           <div className="mx-auto mt-10 max-w-2xl lg:mx-0 lg:max-w-none">
-            <div className="grid grid-cols-1 gap-x-8 gap-y-6 text-base/7 font-semibold text-white sm:grid-cols-2 md:flex lg:gap-x-10">
+            {/* <div className="grid grid-cols-1 gap-x-8 gap-y-6 text-base/7 font-semibold text-white sm:grid-cols-2 md:flex lg:gap-x-10">
               {links.map((link) => (
                 <a key={link.name} href={link.href}>
                   {link.name} <span aria-hidden="true">&rarr;</span>
                 </a>
               ))}
-            </div>
-            <dl className="mt-16 grid grid-cols-1 gap-8 sm:mt-20 sm:grid-cols-2 lg:grid-cols-4">
+            </div> */}
+            <dl className="mt-16 grid grid-cols-1 gap-8 sm:mt-20 sm:grid-cols-2 lg:grid-cols-5">
               {stats.map((stat) => (
                 <div key={stat.name} className="flex flex-col-reverse gap-1">
                   <dt className="text-base/7 text-gray-300">{stat.name}</dt>

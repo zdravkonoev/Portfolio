@@ -1,6 +1,9 @@
 import { Disclosure, DisclosureButton, DisclosurePanel, Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/react'
 import { Bars3Icon, BellIcon, XMarkIcon } from '@heroicons/react/24/outline'
+import { UserCircleIcon } from '@heroicons/react/24/solid'
 import { Link } from 'react-router-dom';
+import UserContext from "../../contexts/UserContext.jsx";
+import { useContext } from "react";
 
 const navigation = [
   { name: 'Blog Administration', to: '#', current: true },
@@ -14,6 +17,12 @@ function classNames(...classes) {
 }
 
 export default function Example() {
+  const {user} = useContext(UserContext);
+
+  console.log("Admin Header User:", user);
+
+  console.log("User picture:", user?.picture);  
+
   return (
     <Disclosure as="nav" className="relative bg-gray-800 z-50">
       <div className="mx-auto mx-auto px-2 sm:px-6 lg:px-8 bg-gray-900">
@@ -28,14 +37,14 @@ export default function Example() {
             </DisclosureButton>
           </div>
           <div className="flex flex-1 items-center justify-center sm:items-stretch sm:justify-start">
-            <div className="flex shrink-0 items-center">
+            {/* <div className="flex shrink-0 items-center">
               <img
                 alt="Your Company"
                 src="https://tailwindcss.com/plus-assets/img/logos/mark.svg?color=indigo&shade=500"
                 className="h-8 w-auto"
               />
-            </div>
-            <div className="hidden sm:ml-6 sm:block">
+            </div> */}
+            <div className="hidden sm:block">
               <div className="flex space-x-4">
                 {navigation.map((item) => (
                   <Link
@@ -67,11 +76,16 @@ export default function Example() {
               <MenuButton className="relative flex rounded-full focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500">
                 <span className="absolute -inset-1.5" />
                 <span className="sr-only">Open user menu</span>
+                {
+                user?.picture ?
                 <img
                   alt=""
-                  src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
+                  //src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
+                  src={user?.picture}
                   className="size-8 rounded-full bg-gray-800 outline -outline-offset-1 outline-white/10"
-                />
+                /> :
+                  <UserCircleIcon aria-hidden="true" className="size-8 text-gray-500" />
+                }
               </MenuButton>
 
               <MenuItems

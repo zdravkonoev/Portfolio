@@ -53,11 +53,11 @@ export default function Blog() {
   //}, []);
 
   // To remove Header if I'm not in Blog Page
-  const { pathname } = useLocation();
+  // const { pathname } = useLocation();
 
   return (
     <>
-      {pathname === "/blog" && <Header />}
+      {/* {pathname === "/blog" && <Header />} */}
       <div className="bg-gray-900 py-24 sm:py-32">
         <div className="mx-auto max-w-7xl px-6 lg:px-8">
           <div  className="relative mt-8 flex items-center gap-x-4">

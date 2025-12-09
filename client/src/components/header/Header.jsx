@@ -16,6 +16,10 @@ const navigation = [
   
 ]
 
+function classNames(...classes) {
+  return classes.filter(Boolean).join(' ')
+}
+
 export default function Header() {
     const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
     const {user} = useContext(UserContext);
@@ -37,10 +41,10 @@ export default function Header() {
   };
 
   return (
-    <header className="absolute inset-x-0 z-50 mx-auto px-2 sm:px-6 lg:px-8 bg-gray-900">{/* top-0  */}
+    <header className="relative inset-x-0 z-1 mx-auto px-2 sm:px-6 lg:px-8 bg-gray-900">{/* top-0  */}
         <nav aria-label="Global" className="flex items-center justify-between p-6 lg:px-8 max-w-7xl mx-auto">
           <div className="flex lg:flex-1">
-            <Link to="/" className="-m-1.5 p-1.5">
+            <Link to="/" className="-m-1.5 p-1.5 px-5">
               <span className="sr-only">Personal Portfolio</span>
               <img
                 alt=""
@@ -62,13 +66,21 @@ export default function Header() {
           <div className="hidden lg:flex lg:gap-x-12">
             {navigation.map((item) => (
               item.name === "Blog" || item.name === "About Me" ?
-              <Link key={item.name} to={item.href} className="text-sm/6 font-semibold text-white">
+              <Link key={item.name} to={item.href} 
+              className={classNames(
+                item.current ? 'bg-gray-900 text-white' : 'text-gray-300 hover:bg-white/5 hover:text-white',
+                'rounded-md px-3 py-2 text-sm font-medium cursor-pointer',
+              )}
+              >
                 {item.name}
               </Link>
               :
               <span
                 onClick={() => handleScroll(item.name.toLowerCase().replace(" ", "-"))}
-                className="cursor-pointer text-sm font-semibold text-white"
+                className={classNames(
+                item.current ? 'bg-gray-900 text-white ' : 'text-gray-300 hover:bg-white/5 hover:text-white',
+                'rounded-md px-3 py-2 text-sm font-medium cursor-pointer',
+              )}
               >
                 {item.name}
               </span>
@@ -80,15 +92,19 @@ export default function Header() {
                 <Link to="/register" className="text-sm/6 font-semibold text-white mr-3">
                   Register
                 </Link>
-
+                <span className="text-sm/6 font-semibold text-white pr-5"> | </span>
                 <Link to="/login" className="text-sm/6 font-semibold text-white">
                   Log in <span aria-hidden="true">&rarr;</span>
                 </Link>
               </>
             ) : (
-              <Link to="/logout" className="text-sm/6 font-semibold text-white">
-                Log out <span aria-hidden="true">&rarr;</span>
-              </Link>
+              <>
+                <span className="text-sm/6 font-semibold text-white pr-5">{user?.email}</span>
+                <span className="text-sm/6 font-semibold text-white pr-5"> | </span>
+                <Link to="/logout" className="text-sm/6 font-semibold text-white">
+                  Log out <span aria-hidden="true">&rarr;</span>
+                </Link>
+              </>
             )}
           </div>
         </nav>

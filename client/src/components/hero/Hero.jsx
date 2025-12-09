@@ -26,8 +26,8 @@ export default function Hero() {
             className="relative left-[calc(50%-11rem)] aspect-1155/678 w-144.5 -translate-x-1/2 rotate-30 bg-linear-to-tr from-[#ff80b5] to-[#9089fc] opacity-30 sm:left-[calc(50%-30rem)] sm:w-288.75"
           />
         </div>
-        <div className="mx-auto max-w-2xl py-32 sm:py-48 lg:py-56">
-          <div className="sm:mb-8 sm:flex sm:justify-center">
+        <div className="mx-auto max-w-2xl py-16 sm:py-32 lg:py-48">
+          <div className="mb-8 flex justify-center">
             <Avatar {...user} />
           </div>
           <div className="text-center">

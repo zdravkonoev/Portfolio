@@ -5,8 +5,10 @@ import useLocalStorage from '../hooks/useLocalStorage.js';
 const UserContext = createContext({
     isAuthenticated: false,
     user: {
+        username: '',
         email: '',
         password: '',
+        picture: '',
         _createdOn: 0,
         _id: '',
         accessoToken: ''
@@ -22,10 +24,11 @@ export function UserProvider(props) {
     const [user, setUser] = useLocalStorage(null, 'authenticated');
     const { request } = useRequest();
 
-    const registerHandler = async(email, password) => {
+    const registerHandler = async(username, email, password, picture) => {
         
-        const newUser = {email, password};
+        const newUser = {username, email, password, picture};
 
+        console.log("New user:", newUser);
         //Api Call to register user
         const result = await request('/users/register', 'POST', newUser);
 

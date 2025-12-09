@@ -7,7 +7,7 @@ import { useState } from "react";
 
 
 export default function Register() {
-
+    //BEGIN Validation functions
     const [errors, setErrors] = useState({});
 
     function validate(values) {
@@ -15,6 +15,14 @@ export default function Register() {
         let errors = {};
 
         //Validate email field
+        if (values.username && values.username.length < 6) {
+            errors['username'] = "Username must be at least 6 characters long";
+        }
+        
+        if (!values.username) {
+            errors['username'] = "Username is required";
+        }
+
         if (values.email && values.email.length < 6) {
             errors['email'] = "Email must be at least 6 characters long";
         }
@@ -71,9 +79,9 @@ export default function Register() {
         }
 
 
-        const {email, password} = values;
+        const {username, email, password, picture} = values;
         //const confirmPassword = values['confirm-password'];
-        console.log({email, password});
+        console.log({username, email, password, picture});
 
         //TODO: Validation
         //if (!email || !password || !confirmPassword) {
@@ -89,7 +97,7 @@ export default function Register() {
         
         try {
             //TODO: Register User
-            await registerHandler(email, password);
+            await registerHandler(username, email, password, picture);
 
             //TODO: Redirect to login page
             navigate('/');
@@ -106,9 +114,11 @@ export default function Register() {
 
     //When you give parameters they MUST BE used with the same names inside the hook - Exxample: 'values' must be 'values' inside the hook!!!
     const { formAction, register } = useForm(registerSubmitHandler, {
+        username: '',
         email: '',
         password: '',
         'confirm-password': '',
+        picture: '',
     });
 
     
@@ -138,6 +148,23 @@ export default function Register() {
 
             <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
             <form action={formAction} className="space-y-6">
+                <div>
+                    <label htmlFor="username" className="block text-sm/6 font-medium text-gray-900">
+                        Username
+                    </label>
+                    <div className="mt-2">
+                        <input
+                        id="username"
+                        type="username"
+                        required
+                        autoComplete="username"
+                        {...register('username')}
+                        className={inputClass('username')}
+                        />
+                        {errorText('username')}
+                    </div>
+                </div>
+
                 <div>
                     <label htmlFor="email" className="block text-sm/6 font-medium text-gray-900">
                         Email address
@@ -190,6 +217,23 @@ export default function Register() {
                         className={inputClass('confirm-password')}
                         />
                         {errorText('confirm-password')}
+                    </div>
+                </div>
+
+                <div>
+                    <div className="flex items-center justify-between">
+                        <label htmlFor="picture" className="block text-sm/6 font-medium text-gray-900">
+                            Picture URL
+                        </label>
+                    </div>
+                    <div className="mt-2">
+                        <input
+                        id="picture"
+                        type="picture"
+                        autoComplete="picture"
+                        {...register('picture')}
+                        className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
+                        />
                     </div>
                 </div>
                 
