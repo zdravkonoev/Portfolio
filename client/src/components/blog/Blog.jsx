@@ -10,7 +10,7 @@ export default function Blog() {
   
   const {user} = useContext(UserContext);
 
-  const { data: posts } = useRequest('/data/posts/', []);
+  const { data: posts } = useRequest('/data/posts?sortBy=_createdOn%20desc', []);
 
   console.log(posts);
   //console.log(updatedPosts);

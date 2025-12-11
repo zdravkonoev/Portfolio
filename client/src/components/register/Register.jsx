@@ -79,7 +79,13 @@ export default function Register() {
         }
 
 
-        const {username, email, password, picture} = values;
+        const {
+            username, 
+            email, 
+            password, 
+            picture = "https://images.unsplash.com/placeholder-avatars/extra-large.jpg?ixlib=rb-0.3.5&q=80&fm=jpg&crop=faces&cs=tinysrgb&fit=crop&h=32&w=32"
+        } = values;
+
         //const confirmPassword = values['confirm-password'];
         console.log({username, email, password, picture});
 
