@@ -1352,7 +1352,7 @@
     var seedData = {
         posts: {
             "-MSbypx-13fHPDyzNRtf": {
-            _ownerId: "60f0cf0b-34b0-4abd-9769-8c42f830dffc",
+            _ownerId: "847ec027-f659-4086-8032-5173e2f9c93a",
             id: 1,
             title: "Boost your conversion rate",
             href: "#",
@@ -1387,7 +1387,7 @@
             _createdOn: 1613551279012
             },
             "-MSbzSdzWBvBHJN7gdRw": {
-            _ownerId: "35c62d76-8152-4626-8712-eeb96381bea8",
+            _ownerId: "60f0cf0b-34b0-4abd-9769-8c42f830dffc",
             id: 3,
             title: "Improve your customer experience",
             href: "#",
