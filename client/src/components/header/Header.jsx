@@ -3,42 +3,14 @@ import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline'
 import { Link } from 'react-router-dom';
 import { useState } from 'react';
 import { useContext } from "react";
-import { useLocation, useNavigate } from 'react-router-dom';
 import UserContext from "../../contexts/UserContext.jsx";
+import Menu from '../menu/Menu.jsx';
 
 
-const navigation = [
-  { name: 'About Me', href: '/' },
-  { name: 'Experience', href: '/#experience' },
-  { name: 'Projects', href: '/#projects' },
-  { name: 'Statistics', href: '/#statistics' },
-  { name: 'Blog', href: '/blog' },
-  
-]
-
-function classNames(...classes) {
-  return classes.filter(Boolean).join(' ')
-}
 
 export default function Header() {
     const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
     const {user} = useContext(UserContext);
-
-  // Navigation component - no reload on links and #anchors
-  const location = useLocation();
-  const navigate = useNavigate();
-
-  // Handles scrolling logic
-  const handleScroll = (id) => {
-    if (location.pathname === "/") {
-      // Already on Home → just scroll
-      const el = document.getElementById(id);
-      if (el) el.scrollIntoView({ behavior: "smooth" });
-    } else {
-      // On another page → navigate home without full reload
-      navigate("/#" + id);
-    }
-  };
 
   return (
     <header className="relative inset-x-0 z-1 mx-auto px-2 sm:px-6 lg:px-8 bg-gray-900">{/* top-0  */}
@@ -64,9 +36,9 @@ export default function Header() {
             </button>
           </div>
           <div className="hidden lg:flex lg:gap-x-12">
-            {navigation.map((item) => (
+            {/* {navigation.map((item) => (
               item.name === "Blog" || item.name === "About Me" ?
-              <Link key={item.name} to={item.href} 
+              <Link key={item.id} to={item.href} 
               className={classNames(
                 item.current ? 'bg-gray-900 text-white' : 'text-gray-300 hover:bg-white/5 hover:text-white',
                 'rounded-md px-3 py-2 text-sm font-medium cursor-pointer',
@@ -84,7 +56,8 @@ export default function Header() {
               >
                 {item.name}
               </span>
-            ))}
+            ))} */}
+            <Menu />
           </div>
           <div className="hidden lg:flex lg:flex-1 lg:justify-end">
             {!user ? (
@@ -132,23 +105,27 @@ export default function Header() {
             <div className="mt-6 flow-root">
               <div className="-my-6 divide-y divide-white/10">
                 <div className="space-y-2 py-6">
-                  {navigation.map((item) => (
-                    <a
-                      key={item.name}
+                  {/* {navigation.map((item) => (
+                    <Link
+                      key={item.id}
                       href={item.href}
                       className="-mx-3 block rounded-lg px-3 py-2 text-base/7 font-semibold text-white hover:bg-white/5"
                     >
                       {item.name}
-                    </a>
-                  ))}
+                    </Link>
+                  ))} */}
+                  <Menu display="block" />
                 </div>
                 <div className="py-6">
-                  <a
+                  <Link to="/login" className="block rounded-lg px-3 py-2 text-base/7 font-semibold text-white hover:bg-white/5">
+                    Log in <span aria-hidden="true">&rarr;</span>
+                  </Link>
+                  {/* <a
                     href="#"
-                    className="-mx-3 block rounded-lg px-3 py-2.5 text-base/7 font-semibold text-white hover:bg-white/5"
+                    className="block rounded-lg px-3 py-2 text-base/7 font-semibold text-white hover:bg-white/5"
                   >
                     Log in
-                  </a>
+                  </a> */}
                 </div>
               </div>
             </div>

@@ -51,12 +51,13 @@ export default function useRequest(url, initalState) {
 
     useEffect(() => {
         // Fetch initial data if URL is provided
+        
         if (!url) return;
 
         request(url)
           .then(result => setData(result))
           .catch(error => console.error('Error fetching data:', error));
-
+        
     }, [url]);
 
     return { request, data };

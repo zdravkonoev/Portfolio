@@ -86,7 +86,7 @@ export default function CreatePost() {
         //This time POST data to Collection not jsonstore
         try {
 
-            const result = await request('/data/posts', 'POST', formData, {accessToken: user.accessToken});
+            const result = await request('/data/posts', 'POST', formData, {accessToken: user?.accessToken});
             console.log("New post created with key:", result);
             navigate('/blog');
 
