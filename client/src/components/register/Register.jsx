@@ -78,14 +78,18 @@ export default function Register() {
             return;
         }
 
+        if (values.picture === '') {
+            values.picture = "https://images.unsplash.com/placeholder-avatars/extra-large.jpg?ixlib=rb-0.3.5&q=80&fm=jpg&crop=faces&cs=tinysrgb&fit=crop&h=32&w=32";
+        }
 
         const {
             username, 
             email, 
             password, 
-            picture = "https://images.unsplash.com/placeholder-avatars/extra-large.jpg?ixlib=rb-0.3.5&q=80&fm=jpg&crop=faces&cs=tinysrgb&fit=crop&h=32&w=32"
+            picture,
         } = values;
 
+        
         //const confirmPassword = values['confirm-password'];
         console.log({username, email, password, picture});
 
@@ -103,6 +107,7 @@ export default function Register() {
         
         try {
             //TODO: Register User
+
             await registerHandler(username, email, password, picture);
 
             //TODO: Redirect to login page

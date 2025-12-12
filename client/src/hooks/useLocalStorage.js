@@ -2,11 +2,11 @@ import { useState } from 'react';
 
 export default function useLocalStorage(initalState, key) {
     const [state, setState] = useState(() => {
+        //function to get initial state from localStorage on first render
+        const storageData = localStorage.getItem(key);
 
-        const data = localStorage.getItem(key);
-
-        if (data) {
-            return JSON.parse(data);
+        if (storageData) {
+            return JSON.parse(storageData);
         }
 
         

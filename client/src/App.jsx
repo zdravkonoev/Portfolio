@@ -11,7 +11,7 @@ import AdminHeaders from './components/header/AdminHeader.jsx'
 import CreatePost from './components/blog/CreatePost.jsx';
 import EditPost from './components/blog/EditPost.jsx';
 import { useContext } from 'react';
-import UserContext from './contexts/UserContext';
+import UserContext from './contexts/UserContext.jsx';
 import { useLocation } from 'react-router-dom';
 import { useEffect } from 'react';
 

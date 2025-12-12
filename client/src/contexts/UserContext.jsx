@@ -11,7 +11,7 @@ const UserContext = createContext({
         picture: '',
         _createdOn: 0,
         _id: '',
-        accessoToken: ''
+        accessToken: ''
     },
     registerHandler() {},
     loginHandler() {},

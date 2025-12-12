@@ -6,8 +6,8 @@ import UserContext from "../../contexts/UserContext.jsx";
 import { useContext } from "react";
 
 const navigation = [
-  { name: 'Blog Administration', to: '#', current: true },
-  { name: 'Create Post', to: '/blog/post-create', current: false },
+  { id: 1, name: 'Blog Administration', to: '#', current: true },
+  { id: 2, name: 'Create Post', to: '/blog/post-create', current: false },
   // { name: 'Projects', href: '#', current: false },
   // { name: 'Calendar', href: '#', current: false },
 ]
@@ -48,7 +48,7 @@ export default function Example() {
               <div className="flex space-x-4">
                 {navigation.map((item) => (
                   <Link
-                    key={item.name}
+                    key={item.id}
                     to={item.to}
                     aria-current={item.current ? 'page' : undefined}
                     className={classNames(
@@ -126,7 +126,7 @@ export default function Example() {
         <div className="space-y-1 px-2 pt-2 pb-3">
           {navigation.map((item) => (
             <DisclosureButton
-              key={item.name}
+              key={item.id}
               as="a"
               href={item.href}
               aria-current={item.current ? 'page' : undefined}

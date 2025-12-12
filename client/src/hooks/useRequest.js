@@ -1,7 +1,7 @@
 
 const BASE_URL = 'http://localhost:3030';
 import { useContext, useEffect, useState } from "react";
-import UserContext from "../contexts/UserContext";
+import UserContext from "../contexts/UserContext.jsx";
 
 export default function useRequest(url, initalState) {
 

@@ -1,6 +1,5 @@
 import Post from './Post.jsx';
 import Header from '../header/Header.jsx'
-import { useLocation } from 'react-router-dom';
 import { Link } from 'react-router-dom';  
 import useRequest from '../../hooks/useRequest.js';
 import { useContext } from "react";
